@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Layout, Button, Modal, Form, Input, message, Typography, Dropdown, Space, Breadcrumb, Spin } from 'antd';
+import { Layout, Button, Modal, Form, Input, message, Typography, Dropdown, Space, Breadcrumb, Spin, Tree } from 'antd';
 import {
   FolderOpenOutlined,
   ArrowUpOutlined,
@@ -9,7 +9,9 @@ import {
   FileTwoTone,
   FileUnknownTwoTone,
   FileTextTwoTone,
-  FileZipTwoTone
+  FileZipTwoTone,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined
 } from '@ant-design/icons';
 import MonacoEditor from '@monaco-editor/react';
 
@@ -33,7 +35,6 @@ function buildTree(items, parentPath = '.') {
 function FileManager() {
   const [currentPath, setCurrentPath] = useState('.');
   const [fileList, setFileList] = useState([]);
-  const [quickFolders, setQuickFolders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -42,20 +43,80 @@ function FileManager() {
   const [fileContent, setFileContent] = useState('');
   const [contextMenu, setContextMenu] = useState({ open: false, x: 0, y: 0 });
   const [selectedItem, setSelectedItem] = useState(null);
+  const [collapsed, setCollapsed] = useState(false);
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
 
-  // 初始化只加载一次根目录下的快捷文件夹
+  // 构建目录树，只构建一次根目录，懒加载不递归全量加载
+  const buildDirectoryTree = (parentPath = '.') => {
+    // 只返回一级结构，展开时再加载子节点
+    return [];
+  };
+
+  // 初始化加载根目录树
+  const [directoryTree, setDirectoryTree] = useState([]);
+  
+  // 只加载一次根目录
   useEffect(() => {
-    const loadRootFolders = async () => {
+    const loadRootTree = async () => {
       const response = await fetch(`/api/list?path=.`);
       const data = await response.json();
-      if (!data.error) {
-        setQuickFolders(data.files.filter(f => f.isDirectory));
+      if (data.error) {
+        setDirectoryTree([]);
+        return;
       }
+      
+      // 过滤掉以.开头的文件/文件夹，并保留所有文件和文件夹
+      // 排序：文件夹始终放在前面，文件放在后面
+      const directories = data.files.filter(f => !f.name.startsWith('.') && f.isDirectory);
+      const files = data.files.filter(f => !f.name.startsWith('.') && !f.isDirectory);
+      const items = [...directories, ...files];
+      
+      const rootNodes = items.map(item => ({
+        title: item.name,
+        key: item.name,
+        isLeaf: !item.isDirectory,
+        isDirectory: item.isDirectory,
+        icon: item.isDirectory ? <FolderOpenTwoTone /> : <FileTwoTone />
+      }));
+      
+      setDirectoryTree(rootNodes);
     };
-    loadRootFolders();
+    loadRootTree();
   }, []);
+
+  // 懒加载子节点
+  const onLoadData = async ({ key }) => {
+    const response = await fetch(`/api/list?path=${encodeURIComponent(key)}`);
+    const data = await response.json();
+    if (data.error) return;
+    
+    // 过滤掉以.开头的文件/文件夹，保留所有文件和文件夹
+    // 排序：文件夹始终放在前面，文件放在后面
+    const directories = data.files.filter(f => !f.name.startsWith('.') && f.isDirectory);
+    const files = data.files.filter(f => !f.name.startsWith('.') && !f.isDirectory);
+    const items = [...directories, ...files];
+    
+    const loop = (list, key) => {
+      list.forEach(node => {
+        if (node.key === key) {
+          node.children = items.map(item => ({
+            title: item.name,
+            key: `${key}/${item.name}`,
+            isLeaf: !item.isDirectory,
+            isDirectory: item.isDirectory,
+            icon: item.isDirectory ? <FolderOpenTwoTone /> : <FileTwoTone />
+          }));
+        } else if (node.children) {
+          loop(node.children, key);
+        }
+      });
+    };
+    
+    const newTree = [...directoryTree];
+    loop(newTree, key);
+    setDirectoryTree(newTree);
+  };
 
   const fetchFiles = useCallback(async () => {
     setLoading(true);
@@ -65,7 +126,11 @@ function FileManager() {
       if (data.error) {
         messageApi.error(data.error);
       } else {
-        setFileList(data.files);
+        // 过滤掉以.开头的文件/文件夹，排序：文件夹始终放在前面，文件放在后面
+        const directories = data.files.filter(f => !f.name.startsWith('.') && f.isDirectory);
+        const files = data.files.filter(f => !f.name.startsWith('.') && !f.isDirectory);
+        const sortedFiles = [...directories, ...files];
+        setFileList(sortedFiles);
       }
     } catch (err) {
       messageApi.error('获取文件列表失败');
@@ -249,65 +314,93 @@ function FileManager() {
     setContextMenu({ open: false });
   };
 
-  const menuItems = [
-    {
-      key: 'edit',
-      label: '编辑',
-      disabled: !contextMenu.file || contextMenu.file.isDirectory,
-      onClick: () => {
-        if (contextMenu.file) {
-          handleEdit(contextMenu.file);
+  // 根据是否选中文件返回不同菜单项
+  const getMenuItems = () => {
+    if (!contextMenu.file) {
+      // 空白区域只显示新建
+      return [
+        {
+          key: 'createFile',
+          label: '新建文件',
+          onClick: () => {
+            setCreateModalVisible(true);
+            form.setFieldsValue({ type: 'file' });
+            closeContextMenu();
+          }
+        },
+        {
+          key: 'createFolder',
+          label: '新建文件夹',
+          onClick: () => {
+            setCreateModalVisible(true);
+            form.setFieldsValue({ type: 'directory' });
+            closeContextMenu();
+          }
         }
-        closeContextMenu();
-      }
-    },
-    {
-      key: 'rename',
-      label: '重命名',
-      disabled: !contextMenu.file,
-      onClick: () => {
-        if (contextMenu.file) {
-          setSelectedFile(contextMenu.file);
-          setRenameModalVisible(true);
-          form.setFieldsValue({ newName: contextMenu.file.name });
+      ];
+    } else {
+      // 有文件时显示完整菜单
+      return [
+        {
+          key: 'edit',
+          label: '编辑',
+          disabled: contextMenu.file.isDirectory,
+          onClick: () => {
+            if (contextMenu.file) {
+              handleEdit(contextMenu.file);
+            }
+            closeContextMenu();
+          }
+        },
+        {
+          key: 'rename',
+          label: '重命名',
+          disabled: !contextMenu.file,
+          onClick: () => {
+            if (contextMenu.file) {
+              setSelectedFile(contextMenu.file);
+              setRenameModalVisible(true);
+              form.setFieldsValue({ newName: contextMenu.file.name });
+            }
+            closeContextMenu();
+          }
+        },
+        {
+          key: 'delete',
+          label: '删除',
+          danger: true,
+          disabled: !contextMenu.file,
+          onClick: () => {
+            if (contextMenu.file) {
+              handleDelete(contextMenu.file);
+            }
+            closeContextMenu();
+          }
+        },
+        {
+          type: 'divider'
+        },
+        {
+          key: 'createFile',
+          label: '新建文件',
+          onClick: () => {
+            setCreateModalVisible(true);
+            form.setFieldsValue({ type: 'file' });
+            closeContextMenu();
+          }
+        },
+        {
+          key: 'createFolder',
+          label: '新建文件夹',
+          onClick: () => {
+            setCreateModalVisible(true);
+            form.setFieldsValue({ type: 'directory' });
+            closeContextMenu();
+          }
         }
-        closeContextMenu();
-      }
-    },
-    {
-      key: 'delete',
-      label: '删除',
-      danger: true,
-      disabled: !contextMenu.file,
-      onClick: () => {
-        if (contextMenu.file) {
-          handleDelete(contextMenu.file);
-        }
-        closeContextMenu();
-      }
-    },
-    {
-      type: 'divider'
-    },
-    {
-      key: 'createFile',
-      label: '新建文件',
-      onClick: () => {
-        setCreateModalVisible(true);
-        form.setFieldsValue({ type: 'file' });
-        closeContextMenu();
-      }
-    },
-    {
-      key: 'createFolder',
-      label: '新建文件夹',
-      onClick: () => {
-        setCreateModalVisible(true);
-        form.setFieldsValue({ type: 'directory' });
-        closeContextMenu();
-      }
+      ];
     }
-  ];
+  };
 
   return (
     <>
@@ -341,133 +434,139 @@ function FileManager() {
         
         {/* 中间可滚动区域 */}
         <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-          {/* 快捷目录固定宽度 固定不动 */}
+          {/* 目录树 */}
           <div style={{ 
-            width: '200px', 
+            width: 250, 
             padding: '8px', 
             borderRight: '1px solid #f0f0f0', 
-            flexShrink: 0 
+            flexShrink: 0
           }}>
-            <Typography.Title level={5} style={{ margin: '0 0 8px 0' }}>快捷目录</Typography.Title>
             <Spin spinning={loading}>
-              {quickFolders.length > 0 ? quickFolders.map(folder => (
-                <div key={folder.name} style={{ padding: '4px 8px', cursor: 'pointer' }} onClick={() => setCurrentPath(currentPath === '.' ? folder.name : `${currentPath}/${folder.name}`)}>
-                  <Space>
-                    <FolderOpenOutlined />
-                    <span>{folder.name}</span>
-                  </Space>
-                </div>
-              )) : (
-                <Typography.Text type="secondary">暂无文件夹</Typography.Text>
-              )}
+              <Tree
+                treeData={directoryTree}
+                loadData={onLoadData}
+                onSelect={(selectedKeys, info) => {
+                  if (selectedKeys.length > 0) {
+                    // 只有文件夹才改变路径，文件只选中不跳转
+                    if (info.node.isDirectory) {
+                      const path = selectedKeys[0];
+                      if (path !== currentPath) {
+                        setCurrentPath(path);
+                      }
+                    }
+                  }
+                }}
+                showIcon
+                defaultSelectedKeys={[currentPath]}
+              />
             </Spin>
           </div>
           
           {/* 文件部分可滚动 */}
           <div style={{ flex: 1, paddingLeft: 16, overflowY: 'auto' }}>
             <Spin spinning={loading}>
-              <div
-                style={{
-                  position: 'relative',
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '16px'
-                }}
-              >
-                {fileList.map(file => {
-                  // 根据文件类型选择图标
-                  let fileIcon = <FileUnknownTwoTone />;
-                  if (!file.isDirectory) {
-                    const parts = file.name.split('.');
-                    if (parts.length === 1) {
-                      fileIcon = <FileUnknownTwoTone />; // 无后缀
-                    } else {
-                      const ext = parts.pop().toLowerCase();
-                      // 压缩文件
-                      if (['zip', 'rar', '7z', 'gz', 'tar', 'bz2'].includes(ext)) {
-                        fileIcon = <FileZipTwoTone />;
-                      } else if (['txt', 'md', 'js', 'jsx', 'ts', 'tsx', 'json', 'html', 'css', 'py', 'java', 'go', 'c', 'cpp', 'xml', 'yaml', 'yml', 'toml', 'ini', 'conf'].includes(ext)) {
-                        fileIcon = <FileTextTwoTone />; // 可编辑文本文件
+              <Dropdown menu={{ items: getMenuItems() }} trigger={['contextMenu']} onContextMenu={handleBlankContextMenu}>
+                <div
+                  style={{
+                    position: 'relative',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    minHeight: '100%'
+                  }}
+                  onClick={() => setSelectedItem(null)}
+                >
+                  {fileList.map(file => {
+                    // 根据文件类型选择图标
+                    let fileIcon = <FileUnknownTwoTone />;
+                    if (!file.isDirectory) {
+                      const parts = file.name.split('.');
+                      if (parts.length === 1) {
+                        fileIcon = <FileUnknownTwoTone />; // 无后缀
                       } else {
-                        fileIcon = <FileTwoTone />; // 其他文件
+                        const ext = parts.pop().toLowerCase();
+                        // 压缩文件
+                        if (['zip', 'rar', '7z', 'gz', 'tar', 'bz2'].includes(ext)) {
+                          fileIcon = <FileZipTwoTone />;
+                        } else if (['txt', 'md', 'js', 'jsx', 'ts', 'tsx', 'json', 'html', 'css', 'py', 'java', 'go', 'c', 'cpp', 'xml', 'yaml', 'yml', 'toml', 'ini', 'conf'].includes(ext)) {
+                          fileIcon = <FileTextTwoTone />; // 可编辑文本文件
+                        } else {
+                          fileIcon = <FileTwoTone />; // 其他文件
+                        }
                       }
                     }
-                  }
 
-                  const isSelected = selectedItem === file.name;
-                  
-                  const handleClick = () => {
-                    if (isSelected) {
-                      setSelectedItem(null); // 取消选中
-                    } else {
-                      setSelectedItem(file.name); // 选中当前
-                    }
-                  };
+                    const isSelected = selectedItem === file.name;
+                    
+                    const handleClick = (e) => {
+                      e.stopPropagation();
+                      if (isSelected) {
+                        setSelectedItem(null); // 取消选中
+                      } else {
+                        setSelectedItem(file.name); // 选中当前
+                      }
+                    };
 
-                  return (
-                    <Dropdown menu={{ items: menuItems }} trigger={['contextMenu']} onContextMenu={e => handleContextMenu(e, file)} key={file.name}>
-                      <div
-                        style={{
-                          padding: '16px 8px',
-                          cursor: 'context-menu',
-                          background: '#fff',
-                          width: '120px',
-                          height: '160px',
-                          borderRadius: '4px',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          justifyContent: 'flex-start'
-                        }}
-                        onClick={handleClick}
-                        onDoubleClick={() => {
-                          if (file.isDirectory) {
-                            setCurrentPath(currentPath === '.' ? file.name : `${currentPath}/${file.name}`);
-                          } else {
-                            handleEdit(file);
-                          }
-                        }}
-                      >
-                        <div 
-                          style={{ 
-                            width: 60, 
-                            height: 60,
-                            marginBottom: 8,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
+                    return (
+                      <Dropdown menu={{ items: getMenuItems() }} trigger={['contextMenu']} onContextMenu={e => handleContextMenu(e, file)} key={file.name}>
+                        <div
+                          style={{
+                            padding: '16px 8px',
+                            cursor: 'context-menu',
+                            background: '#fff',
+                            width: '120px',
+                            height: '180px',
                             borderRadius: '4px',
-                            backgroundColor: isSelected ? '#E3E3E3' : 'transparent'
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'flex-start',
+                            margin: '0 8px 8px 0'
+                          }}
+                          onClick={handleClick}
+                          onDoubleClick={() => {
+                            if (file.isDirectory) {
+                              setCurrentPath(currentPath === '.' ? file.name : `${currentPath}/${file.name}`);
+                            } else {
+                              handleEdit(file);
+                            }
                           }}
                         >
-                          <div style={{ fontSize: 48 }}>
-                            {file.isDirectory ? <FolderOpenTwoTone /> : fileIcon}
+                          <div 
+                            style={{ 
+                              width: 80, 
+                              height: 80,
+                              marginBottom: 8,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              borderRadius: '4px',
+                              backgroundColor: isSelected ? '#E3E3E3' : 'transparent'
+                            }}
+                          >
+                            <div style={{ fontSize: 48 }}>
+                              {file.isDirectory ? <FolderOpenTwoTone /> : fileIcon}
+                            </div>
+                          </div>
+                          <div 
+                            style={{ 
+                              wordBreak: 'break-word', 
+                              textAlign: 'center',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              backgroundColor: isSelected ? '#1890ff' : 'transparent',
+                              userSelect: 'none'
+                            }}
+                          >
+                            <Typography.Text style={{ color: isSelected ? '#fff' : 'inherit', userSelect: 'none' }}>
+                              {file.name}
+                            </Typography.Text>
                           </div>
                         </div>
-                        <div 
-                          style={{ 
-                            wordBreak: 'break-word', 
-                            textAlign: 'center',
-                            padding: '2px 6px',
-                            borderRadius: '4px',
-                            backgroundColor: isSelected ? '#1890ff' : 'transparent',
-                          }}
-                        >
-                          <Typography.Text style={{ color: isSelected ? '#fff' : 'inherit' }}>
-                            {file.name}
-                          </Typography.Text>
-                        </div>
-                      </div>
-                    </Dropdown>
-                  );
-                })}
-                <Dropdown menu={{ items: menuItems }} trigger={['contextMenu']} onContextMenu={handleBlankContextMenu}>
-                  <div 
-                    style={{ width: '100%', minHeight: 100, paddingBottom: 16 }} 
-                    onClick={() => setSelectedItem(null)}
-                  />
-                </Dropdown>
-              </div>
+                      </Dropdown>
+                    );
+                  })}
+                </div>
+              </Dropdown>
             </Spin>
           </div>
         </div>

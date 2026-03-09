@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { Layout, Typography, Menu, ConfigProvider, Button, Dropdown, Space } from 'antd';
 import * as antdTheme from 'antd/lib/theme';
-import { FolderOpenOutlined, FileExcelOutlined, BulbOutlined, MoonOutlined, SettingOutlined } from '@ant-design/icons';
+import { FolderOpenOutlined, FileExcelOutlined, BulbOutlined, MoonOutlined, SettingOutlined, CalendarOutlined, MenuUnfoldOutlined, MenuFoldOutlined, MessageOutlined } from '@ant-design/icons';
 import FileManager from './components/FileManager';
 import DailyReport from './components/DailyReport';
+import Training from './components/Training';
+import ChatHistory from './components/ChatHistory';
 
 const { darkAlgorithm, defaultAlgorithm } = antdTheme;
 const { Header, Sider, Content } = Layout;
@@ -33,6 +35,7 @@ function App() {
     // 从localStorage读取保存的主题
     return localStorage.getItem('app-theme-mode') || 'auto';
   });
+  const [collapsed, setCollapsed] = useState(false);
 
   const [algorithm, setAlgorithm] = useState(() => getCurrentAlgorithm(themeMode));
 
@@ -40,6 +43,8 @@ function App() {
     const pathname = location.pathname;
     if (pathname === '/filemanager') return 'filemanager';
     if (pathname === '/dailyreport') return 'dailyreport';
+    if (pathname === '/training') return 'training';
+    if (pathname === '/chat') return 'chat';
     return 'filemanager';
   };
 
@@ -97,28 +102,46 @@ function App() {
   return (
     <ConfigProvider theme={{ algorithm }}>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider width={200} theme={getSiderTheme()}>
-          <div style={{ padding: '16px 0', textAlign: 'center', borderBottom: '1px solid #f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-            <svg width="32" height="32" viewBox="0 0  100  100" xmlns="http://www.w3.org/2000/svg">
-              <rect x="5" y="5" width="90" height="90" rx="15" fill="#1890ff" />
-              <text x="50" y="62" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold">龙虾</text>
-              <text x="50" y="85" textAnchor="middle" fill="white" fontSize="14">屋</text>
-            </svg>
-            <Title level={4} style={{ margin: 0, color: themeMode === 'dark' || (themeMode === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) ? '#fff' : '#000' }}>龙虾屋</Title>
+        <Sider width={collapsed ? 48 : 250} theme={getSiderTheme()} style={{ transition: 'width 0.2s' }}>
+          <div style={{ padding: collapsed ? '16px 0' : '16px 0', textAlign: 'center', borderBottom: '1px solid #f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: collapsed ? 0 : 8 }}>
+            {!collapsed && (
+              <>
+                <img src="/lobster-logo.svg" width="32" height="32" alt="龙虾屋" />
+                <Title level={4} style={{ margin: 0, color: themeMode === 'dark' || (themeMode === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) ? '#fff' : '#000' }}>龙虾屋</Title>
+              </>
+            )}
+            {collapsed && (
+              <img src="/lobster-logo.svg" width="32" height="32" alt="龙虾屋" />
+            )}
           </div>
-          <Menu
-            mode="inline"
-            selectedKeys={[getSelectedKey()]}
-            style={{ marginTop: 16 }}
-            onClick={({key}) => navigate(key)}
-          >
-            <Menu.Item key="filemanager" icon={<FolderOpenOutlined />}>
-              文件管理器
-            </Menu.Item>
-            <Menu.Item key="dailyreport" icon={<FileExcelOutlined />}>
-              每日汇报
-            </Menu.Item>
-          </Menu>
+          {!collapsed && (
+            <Menu
+              mode="inline"
+              selectedKeys={[getSelectedKey()]}
+              style={{ marginTop: 16 }}
+              onClick={({key}) => navigate(key)}
+            >
+              <Menu.Item key="filemanager" icon={<FolderOpenOutlined />}>
+                文件管理器
+              </Menu.Item>
+              <Menu.Item key="dailyreport" icon={<FileExcelOutlined />}>
+                每日汇报
+              </Menu.Item>
+              <Menu.Item key="training" icon={<CalendarOutlined />}>
+                健身计划
+              </Menu.Item>
+              <Menu.Item key="chat" icon={<MessageOutlined />}>
+                AI聊天
+              </Menu.Item>
+            </Menu>
+          )}
+          <div style={{ position: 'absolute', bottom: 8, width: '100%', textAlign: 'center' }}>
+            <Button 
+              type="text" 
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} 
+              onClick={() => setCollapsed(!collapsed)}
+            />
+          </div>
         </Sider>
         <Layout>
           <Header style={{ background: getHeaderBg(), padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', borderBottom: '1px solid #f0f0f0' }}>
@@ -131,6 +154,8 @@ function App() {
               <Route path="/" element={<Navigate to="/filemanager" replace />} />
               <Route path="/filemanager" element={<FileManager />} />
               <Route path="/dailyreport" element={<DailyReport />} />
+              <Route path="/training" element={<Training />} />
+              <Route path="/chat" element={<ChatHistory />} />
             </Routes>
           </Content>
         </Layout>

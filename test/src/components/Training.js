@@ -1,0 +1,370 @@
+import React, { useState, useEffect } from 'react';
+import { Typography, Calendar, Card, List, Input, Button, Space, Tag, Modal, Form, message, Spin, Checkbox } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
+
+const trainingParts = [
+  { label: '肩', value: '肩' },
+  { label: '背', value: '背' },
+  { label: '腿', value: '腿' },
+  { label: '胸', value: '胸' },
+  { label: '腹', value: '腹' },
+  { label: '有氧', value: '有氧' },
+  { label: '其他', value: '其他' },
+];
+
+function Training() {
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [currentMonth, setCurrentMonth] = useState(dayjs().format('YYYY-MM'));
+  const [records, setRecords] = useState([]);
+  const [monthDataCache, setMonthDataCache] = useState({});
+  const [loadingMonth, setLoadingMonth] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [form] = Form.useForm();
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const dateStr = selectedDate.format('YYYY-MM-DD');
+
+  // 加载月份数据
+  const loadMonthData = async (month) => {
+    if (monthDataCache[month]) {
+      // 已经缓存，直接用
+      return;
+    }
+
+    setLoadingMonth(true);
+    try {
+      const response = await fetch(`/api/training/month?month=${month}`);
+      const data = await response.json();
+      if (data.data) {
+        setMonthDataCache(prev => ({
+          ...prev,
+          [month]: data.data
+        }));
+      }
+    } catch (err) {
+      console.error('加载月份数据失败', err);
+      messageApi.error('加载月份数据失败');
+    } finally {
+      setLoadingMonth(false);
+    }
+  };
+
+  // 初始化加载当前月份
+  useEffect(() => {
+    loadMonthData(currentMonth);
+  }, []);
+
+  // 日期改变加载记录
+  useEffect(() => {
+    const month = selectedDate.format('YYYY-MM-DD').slice(0, 7);
+    const monthData = monthDataCache[month] || {};
+    setRecords(monthData[dateStr] || []);
+  }, [selectedDate, monthDataCache]);
+
+  // 月份改变重新加载
+  const onPanelChange = (value) => {
+    const newMonth = value.format('YYYY-MM');
+    setSelectedDate(value);
+    setCurrentMonth(newMonth);
+    loadMonthData(newMonth);
+  };
+
+  const onSelect = (date) => {
+    setSelectedDate(date);
+    setEditingIndex(null);
+  };
+
+  const openAddModal = () => {
+    setEditingIndex(null);
+    form.resetFields();
+    setModalVisible(true);
+  };
+
+  const handleEditRecord = (index) => {
+    setEditingIndex(index);
+    const record = records[index];
+    form.setFieldsValue(record);
+    setModalVisible(true);
+  };
+
+  const handleSaveRecord = (values) => {
+    let newRecords = [...records];
+    if (editingIndex !== null) {
+      // 编辑已有记录
+      newRecords[editingIndex] = values;
+    } else {
+      // 添加新记录
+      newRecords.push(values);
+    }
+    setRecords(newRecords);
+    saveCurrentMonth(newRecords);
+    setModalVisible(false);
+    setEditingIndex(null);
+    form.resetFields();
+  };
+
+  const saveCurrentMonth = async (newRecords) => {
+    try {
+      // 更新缓存
+      const newMonthData = {
+        ...monthDataCache[currentMonth],
+        [dateStr]: newRecords
+      };
+      setMonthDataCache(prev => ({
+        ...prev,
+        [currentMonth]: newMonthData
+      }));
+
+      // 保存到后端
+      const response = await fetch('/api/training/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          month: currentMonth, 
+          date: dateStr, 
+          records: newRecords 
+        })
+      });
+      const data = await response.json();
+      if (data.success) {
+        messageApi.success('保存成功');
+      } else {
+        messageApi.error(data.error || '保存失败');
+      }
+    } catch (err) {
+      messageApi.error('保存失败');
+    }
+  };
+
+  const handleDeleteRecord = (index) => {
+    const newRecords = [...records];
+    newRecords.splice(index, 1);
+    setRecords(newRecords);
+    saveCurrentMonth(newRecords);
+  };
+
+  // 计算本月总训练次数
+  const getMonthTrainingCount = () => {
+    const data = monthDataCache[currentMonth] || {};
+    let count = 0;
+    Object.keys(data).forEach(date => {
+      if (data[date].length > 0) {
+        count++;
+      }
+    });
+    return count;
+  };
+
+  // 自定义日期单元格渲染
+  const dateCellRender = (value) => {
+    const month = value.format('YYYY-MM');
+    const key = value.format('YYYY-MM-DD');
+    // 只有当前月份有数据才渲染
+    const monthData = monthDataCache[month] || {};
+    const data = monthData[key];
+    if (!data || data.length === 0) return null;
+
+    // 收集所有部位
+    const parts = [...new Set(data.flatMap(r => r.parts || []))];
+    // 计算总时长
+    const totalDuration = data.reduce((sum, r) => {
+      const duration = r.duration || '';
+      const num = parseInt(duration);
+      return sum + (isNaN(num) ? 0 : num);
+    }, 0);
+    // 获取第一个记录的简短备注
+    const firstContent = data[0]?.content?.split('\n')[0] || '';
+    
+    return (
+      <div style={{ 
+        height: '100%', 
+        width: '100%', 
+        display: 'flex', 
+        flexDirection: 'column',
+        gap: 4,
+        padding: 4
+      }}>
+        {/* 训练部位标签 */}
+        <div style={{ 
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 2
+        }}>
+          {parts.map(part => (
+            <Tag key={part} color="blue" style={{ margin: 0, fontSize: 10, padding: '0 4px' }}>
+              {part}
+            </Tag>
+          ))}
+        </div>
+
+        {/* 总时长 */}
+        {totalDuration > 0 && (
+          <div style={{ fontSize: 12, color: '#1890ff', fontWeight: 500 }}>
+            ⏱ {totalDuration} 分钟
+          </div>
+        )}
+
+        {/* 第一个记录的简短备注 */}
+        {firstContent && (
+          <div style={{ 
+            fontSize: 11, 
+            color: '#666',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+          }}>
+            {firstContent}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // 单元格渲染
+  const cellRender = (current, info) => {
+    if (info.type === 'date') {
+      return dateCellRender(current);
+    }
+    return info.originNode;
+  };
+
+  const hasRecords = records.length > 0;
+
+  return (
+    <div style={{ margin: '16px', padding: '16px', background: '#fff', borderRadius: '4px', minHeight: 'calc(100vh - 64px - 32px - 32px)' }}>
+      {contextHolder}
+      <div style={{ display: 'flex', gap: '24px', flexDirection: 'column' }}>
+        <div>
+          <Typography.Title level={3} style={{ margin: 0 }}>
+            📅 健身计划 · {selectedDate.format('YYYY年MM月')}
+            {getMonthTrainingCount() > 0 && <Tag color="blue" style={{ marginLeft: 12 }}>本月训练 {getMonthTrainingCount()} 天</Tag>}
+          </Typography.Title>
+        </div>
+        
+        {/* 全屏大日历模块，带loading */}
+        <Card>
+          <Spin spinning={loadingMonth}>
+            <Calendar 
+              fullscreen={true} 
+              onSelect={onSelect}
+              onPanelChange={onPanelChange}
+              value={selectedDate}
+              cellRender={cellRender}
+            />
+          </Spin>
+        </Card>
+
+        {/* 当日健身记录 - 放在日历下面 */}
+        <Card 
+          title={`📝 ${dateStr} 详细记录`}
+          extra={
+            <Button 
+              type="primary" 
+              icon={hasRecords ? <EditOutlined /> : <PlusOutlined />} 
+              onClick={openAddModal} 
+              size="small"
+            >
+              {hasRecords ? '添加/编辑记录' : '添加记录'}
+            </Button>
+          }
+        >
+          <Spin spinning={loading}>
+            {records.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
+                今天还没有健身记录哦<br/>
+                点击右上角添加吧💪
+              </div>
+            ) : (
+              <List
+                dataSource={records}
+                renderItem={(item, index) => (
+                  <List.Item
+                    actions={[
+                      <Button 
+                        type="text" 
+                        icon={<EditOutlined />} 
+                        onClick={() => handleEditRecord(index)}
+                        size="small"
+                      />,
+                      <Button 
+                        type="text" 
+                        danger 
+                        icon={<DeleteOutlined />} 
+                        onClick={() => handleDeleteRecord(index)}
+                        size="small"
+                      />
+                    ]}
+                  >
+                    <Space direction="vertical" style={{ width: '100%' }}>
+                      <Space wrap>
+                        <Tag color="green">{item.type}</Tag>
+                        {item.duration && <Tag color="blue">{item.duration}分钟</Tag>}
+                        {item.parts && item.parts.map(part => (
+                          <Tag key={part} color="purple">{part}</Tag>
+                        ))}
+                      </Space>
+                      <div style={{ whiteSpace: 'pre-wrap' }}>{item.content}</div>
+                    </Space>
+                  </List.Item>
+                )}
+              />
+            )}
+          </Spin>
+        </Card>
+      </div>
+
+      {/* 添加/编辑记录弹窗 */}
+      <Modal
+        title={editingIndex !== null ? `编辑记录` : `添加 ${dateStr} 健身记录`}
+        open={modalVisible}
+        onCancel={() => {
+          setModalVisible(false);
+          setEditingIndex(null);
+          form.resetFields();
+        }}
+        onOk={() => form.submit()}
+        okText={editingIndex !== null ? '保存修改' : '添加'}
+        cancelText="取消"
+      >
+        <Form form={form} layout="vertical" onFinish={handleSaveRecord}>
+          <Form.Item
+            name="type"
+            label="训练类型"
+            initialValue="力量训练"
+            rules={[{ required: true, message: '请输入训练类型' }]}
+          >
+            <Input placeholder="例如：力量训练/有氧训练/拉伸" />
+          </Form.Item>
+          <Form.Item
+            name="duration"
+            label="训练时长（分钟）"
+          >
+            <Input placeholder="例如：60" />
+          </Form.Item>
+          <Form.Item
+            name="parts"
+            label="训练部位"
+            rules={[{ required: true, message: '请至少选择一个训练部位' }]}
+          >
+            <Checkbox.Group options={trainingParts} />
+          </Form.Item>
+          <Form.Item
+            name="content"
+            label="训练内容/备注"
+            rules={[{ required: true, message: '请输入训练内容' }]}
+          >
+            <Input.TextArea 
+              placeholder="请详细记录今天的训练内容，动作、组数、重量..."
+              rows={4}
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
+  );
+}
+
+export default Training;

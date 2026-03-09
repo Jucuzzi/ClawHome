@@ -1,8 +1,11 @@
 const express = require('express');
+const compression = require('compression');
 const fs = require('fs');
 const path = require('path');
 
 const app = express();
+// 启用gzip压缩所有响应
+app.use(compression());
 const port = 3000;
 // 硬编码绝对路径确保能访问memory目录
 const basePath = '/root/.openclaw/workspace';
@@ -132,6 +135,72 @@ app.post('/api/delete', (req, res) => {
     res.json({ success: true });
   } catch (err) {
     res.json({ error: err.message });
+  }
+});
+
+// 健身记录API - 按月存储，每个月一个JSON文件
+const trainingBaseDir = path.join(basePath, 'user', 'training');
+
+// 确保目录存在
+if (!fs.existsSync(trainingBaseDir)) {
+  fs.mkdirSync(trainingBaseDir, { recursive: true });
+}
+
+// 获取指定月份的健身记录
+app.get('/api/training/month', (req, res) => {
+  const { month } = req.query; // yyyy-MM
+  const filePath = path.join(trainingBaseDir, `${month}.json`);
+  
+  try {
+    if (!fs.existsSync(filePath)) {
+      return res.json({ data: {} });
+    }
+    const content = fs.readFileSync(filePath, 'utf8');
+    const monthData = JSON.parse(content);
+    res.json({ data: monthData });
+  } catch (err) {
+    res.json({ error: err.message, data: {} });
+  }
+});
+
+// 保存指定月份的健身记录（某个日期更新后整个月份保存）
+app.post('/api/training/save', (req, res) => {
+  const { month, date, records } = req.body; // month: yyyy-MM
+  const filePath = path.join(trainingBaseDir, `${month}.json`);
+  
+  try {
+    let monthData = {};
+    if (fs.existsSync(filePath)) {
+      const content = fs.readFileSync(filePath, 'utf8');
+      monthData = JSON.parse(content);
+    }
+    monthData[date] = records;
+    // 如果没有记录，删除这个key
+    if (records.length === 0) {
+      delete monthData[date];
+    }
+    // 确保目录存在
+    if (!fs.existsSync(trainingBaseDir)) {
+      fs.mkdirSync(trainingBaseDir, { recursive: true });
+    }
+    fs.writeFileSync(filePath, JSON.stringify(monthData, null, 2), 'utf8');
+    res.json({ success: true });
+  } catch (err) {
+    res.json({ error: err.message, success: false });
+  }
+});
+
+// 获取所有月份列表（有记录的）
+app.get('/api/training/months', (req, res) => {
+  try {
+    if (!fs.existsSync(trainingBaseDir)) {
+      return res.json({ months: [] });
+    }
+    const files = fs.readdirSync(trainingBaseDir);
+    const months = files.filter(name => name.endsWith('.json')).map(name => name.replace('.json', ''));
+    res.json({ months });
+  } catch (err) {
+    res.json({ error: err.message, months: [] });
   }
 });
 
