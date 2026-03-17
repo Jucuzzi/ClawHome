@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { Layout, Typography, Menu, ConfigProvider, Button, Dropdown, Space } from 'antd';
 import * as antdTheme from 'antd/lib/theme';
-import { FolderOpenOutlined, FileExcelOutlined, BulbOutlined, MoonOutlined, SettingOutlined, CalendarOutlined, MenuUnfoldOutlined, MenuFoldOutlined, MessageOutlined } from '@ant-design/icons';
+import { FolderOpenOutlined, FileExcelOutlined, BulbOutlined, MoonOutlined, SettingOutlined, CalendarOutlined, MenuUnfoldOutlined, MenuFoldOutlined, MessageOutlined, DashboardOutlined } from '@ant-design/icons';
 import FileManager from './components/FileManager';
 import DailyReport from './components/DailyReport';
 import Training from './components/Training';
 import ChatHistory from './components/ChatHistory';
+import Dashboard from './components/Dashboard';
 
 const { darkAlgorithm, defaultAlgorithm } = antdTheme;
 const { Header, Sider, Content } = Layout;
@@ -41,11 +42,12 @@ function App() {
 
   const getSelectedKey = () => {
     const pathname = location.pathname;
+    if (pathname === '/dashboard') return 'dashboard';
     if (pathname === '/filemanager') return 'filemanager';
     if (pathname === '/dailyreport') return 'dailyreport';
     if (pathname === '/training') return 'training';
     if (pathname === '/chat') return 'chat';
-    return 'filemanager';
+    return 'dashboard';
   };
 
   // 根据主题模式获取算法
@@ -121,6 +123,9 @@ function App() {
               style={{ marginTop: 16 }}
               onClick={({key}) => navigate(key)}
             >
+              <Menu.Item key="dashboard" icon={<DashboardOutlined />}>
+                仪表盘
+              </Menu.Item>
               <Menu.Item key="filemanager" icon={<FolderOpenOutlined />}>
                 文件管理器
               </Menu.Item>
@@ -151,7 +156,8 @@ function App() {
           </Header>
           <Content>
             <Routes>
-              <Route path="/" element={<Navigate to="/filemanager" replace />} />
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/filemanager" element={<FileManager />} />
               <Route path="/dailyreport" element={<DailyReport />} />
               <Route path="/training" element={<Training />} />

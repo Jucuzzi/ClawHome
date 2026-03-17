@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Layout, Button, Modal, Form, Input, message, Typography, Dropdown, Space, Breadcrumb, Spin, Tree } from 'antd';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Layout, Button, Modal, Form, Input, message, Typography, Dropdown, Space, Breadcrumb, Spin, Tree, theme } from 'antd';
 import {
   FolderOpenOutlined,
   ArrowUpOutlined,
@@ -16,6 +16,12 @@ import {
 import MonacoEditor from '@monaco-editor/react';
 
 const { Content } = Layout;
+const { useToken } = theme;
+
+// 检测是否为移动端
+const isMobile = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+};
 
 function buildTree(items, parentPath = '.') {
   const tree = [];
@@ -33,6 +39,7 @@ function buildTree(items, parentPath = '.') {
 }
 
 function FileManager() {
+  const { token } = useToken();
   const [currentPath, setCurrentPath] = useState('.');
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -46,6 +53,20 @@ function FileManager() {
   const [collapsed, setCollapsed] = useState(false);
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
+  const [isMobileDevice, setIsMobileDevice] = useState(isMobile());
+  
+  // 长按相关的状态
+  const longPressTimer = useRef(null);
+  const longPressTriggered = useRef(false);
+
+  // 监听窗口大小变化，更新移动端状态
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileDevice(isMobile());
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // 构建目录树，只构建一次根目录，懒加载不递归全量加载
   const buildDirectoryTree = (parentPath = '.') => {
@@ -286,6 +307,40 @@ function FileManager() {
     setCurrentPath(parentPath);
   };
 
+  // 长按开始
+  const handleLongPressStart = (e, file) => {
+    if (!isMobileDevice) return;
+    longPressTriggered.current = false;
+    longPressTimer.current = setTimeout(() => {
+      longPressTriggered.current = true;
+      setSelectedFile(file);
+      // 获取触摸位置
+      let clientX = 0;
+      let clientY = 0;
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else if (e.clientX !== undefined) {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+      setContextMenu({
+        open: true,
+        x: clientX,
+        y: clientY,
+        file
+      });
+    }, 500); // 500ms长按
+  };
+
+  // 长按结束
+  const handleLongPressEnd = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  };
+
   const handleContextMenu = (e, file) => {
     e.preventDefault();
     e.stopPropagation();
@@ -409,7 +464,7 @@ function FileManager() {
         style={{ 
           margin: '16px', 
           padding: '16px', 
-          background: '#fff', 
+          background: token.colorBgContainer, 
           borderRadius: '4px', 
           minHeight: 'calc(100vh - 64px - 32px - 32px)',
           display: 'flex',
@@ -434,145 +489,188 @@ function FileManager() {
         
         {/* 中间可滚动区域 */}
         <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-          {/* 目录树 */}
-          <div style={{ 
-            width: 250, 
-            padding: '8px', 
-            borderRight: '1px solid #f0f0f0', 
-            flexShrink: 0
-          }}>
-            <Spin spinning={loading}>
-              <Tree
-                treeData={directoryTree}
-                loadData={onLoadData}
-                onSelect={(selectedKeys, info) => {
-                  if (selectedKeys.length > 0) {
-                    // 只有文件夹才改变路径，文件只选中不跳转
-                    if (info.node.isDirectory) {
-                      const path = selectedKeys[0];
-                      if (path !== currentPath) {
-                        setCurrentPath(path);
-                      }
-                    }
-                  }
-                }}
-                showIcon
-                defaultSelectedKeys={[currentPath]}
-              />
-            </Spin>
-          </div>
-          
-          {/* 文件部分可滚动 */}
-          <div style={{ flex: 1, paddingLeft: 16, overflowY: 'auto' }}>
-            <Spin spinning={loading}>
-              <Dropdown menu={{ items: getMenuItems() }} trigger={['contextMenu']} onContextMenu={handleBlankContextMenu}>
-                <div
-                  style={{
-                    position: 'relative',
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    minHeight: '100%'
-                  }}
-                  onClick={() => setSelectedItem(null)}
-                >
-                  {fileList.map(file => {
-                    // 根据文件类型选择图标
-                    let fileIcon = <FileUnknownTwoTone />;
-                    if (!file.isDirectory) {
-                      const parts = file.name.split('.');
-                      if (parts.length === 1) {
-                        fileIcon = <FileUnknownTwoTone />; // 无后缀
-                      } else {
-                        const ext = parts.pop().toLowerCase();
-                        // 压缩文件
-                        if (['zip', 'rar', '7z', 'gz', 'tar', 'bz2'].includes(ext)) {
-                          fileIcon = <FileZipTwoTone />;
-                        } else if (['txt', 'md', 'js', 'jsx', 'ts', 'tsx', 'json', 'html', 'css', 'py', 'java', 'go', 'c', 'cpp', 'xml', 'yaml', 'yml', 'toml', 'ini', 'conf'].includes(ext)) {
-                          fileIcon = <FileTextTwoTone />; // 可编辑文本文件
-                        } else {
-                          fileIcon = <FileTwoTone />; // 其他文件
+          {/* 目录树 - 移动端隐藏 */}
+          {!isMobileDevice && (
+            <div style={{ 
+              width: 250, 
+              padding: '8px', 
+              borderRight: `1px solid ${token.colorBorder}`, 
+              flexShrink: 0
+            }}>
+              <Spin spinning={loading}>
+                <Tree
+                  treeData={directoryTree}
+                  loadData={onLoadData}
+                  onSelect={(selectedKeys, info) => {
+                    if (selectedKeys.length > 0) {
+                      // 只有文件夹才改变路径，文件只选中不跳转
+                      if (info.node.isDirectory) {
+                        const path = selectedKeys[0];
+                        if (path !== currentPath) {
+                          setCurrentPath(path);
                         }
                       }
                     }
-
-                    const isSelected = selectedItem === file.name;
-                    
-                    const handleClick = (e) => {
-                      e.stopPropagation();
-                      if (isSelected) {
-                        setSelectedItem(null); // 取消选中
+                  }}
+                  showIcon
+                  defaultSelectedKeys={[currentPath]}
+                />
+              </Spin>
+            </div>
+          )}
+          
+          {/* 文件部分可滚动 */}
+          <div style={{ flex: 1, paddingLeft: isMobileDevice ? 0 : 16, overflowY: 'auto' }}>
+            <Spin spinning={loading}>
+              <div
+                style={{
+                  position: 'relative',
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  minHeight: '100%'
+                }}
+                onClick={() => setSelectedItem(null)}
+              >
+                {fileList.map(file => {
+                  // 根据文件类型选择图标
+                  let fileIcon = <FileUnknownTwoTone />;
+                  if (!file.isDirectory) {
+                    const parts = file.name.split('.');
+                    if (parts.length === 1) {
+                      fileIcon = <FileUnknownTwoTone />; // 无后缀
+                    } else {
+                      const ext = parts.pop().toLowerCase();
+                      // 压缩文件
+                      if (['zip', 'rar', '7z', 'gz', 'tar', 'bz2'].includes(ext)) {
+                        fileIcon = <FileZipTwoTone />;
+                      } else if (['txt', 'md', 'js', 'jsx', 'ts', 'tsx', 'json', 'html', 'css', 'py', 'java', 'go', 'c', 'cpp', 'xml', 'yaml', 'yml', 'toml', 'ini', 'conf'].includes(ext)) {
+                        fileIcon = <FileTextTwoTone />; // 可编辑文本文件
                       } else {
-                        setSelectedItem(file.name); // 选中当前
+                        fileIcon = <FileTwoTone />; // 其他文件
                       }
-                    };
+                    }
+                  }
 
-                    return (
-                      <Dropdown menu={{ items: getMenuItems() }} trigger={['contextMenu']} onContextMenu={e => handleContextMenu(e, file)} key={file.name}>
-                        <div
-                          style={{
-                            padding: '16px 8px',
-                            cursor: 'context-menu',
-                            background: '#fff',
-                            width: '120px',
-                            height: '180px',
-                            borderRadius: '4px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'flex-start',
-                            margin: '0 8px 8px 0'
-                          }}
-                          onClick={handleClick}
-                          onDoubleClick={() => {
-                            if (file.isDirectory) {
-                              setCurrentPath(currentPath === '.' ? file.name : `${currentPath}/${file.name}`);
-                            } else {
-                              handleEdit(file);
-                            }
-                          }}
-                        >
-                          <div 
-                            style={{ 
-                              width: 80, 
-                              height: 80,
-                              marginBottom: 8,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              borderRadius: '4px',
-                              backgroundColor: isSelected ? '#E3E3E3' : 'transparent'
-                            }}
-                          >
-                            <div style={{ fontSize: 48 }}>
-                              {file.isDirectory ? <FolderOpenTwoTone /> : fileIcon}
-                            </div>
-                          </div>
-                          <div 
-                            style={{ 
-                              wordBreak: 'break-word', 
-                              textAlign: 'center',
-                              padding: '2px 6px',
-                              borderRadius: '4px',
-                              backgroundColor: isSelected ? '#1890ff' : 'transparent',
-                              userSelect: 'none'
-                            }}
-                          >
-                            <Typography.Text style={{ color: isSelected ? '#fff' : 'inherit', userSelect: 'none' }}>
-                              {file.name}
-                            </Typography.Text>
-                          </div>
+                  const isSelected = selectedItem === file.name;
+                  
+                  const handleClick = (e) => {
+                    e.stopPropagation();
+                    if (longPressTriggered.current) {
+                      // 如果长按已触发，不执行点击
+                      longPressTriggered.current = false;
+                      return;
+                    }
+                    if (isSelected) {
+                      setSelectedItem(null); // 取消选中
+                    } else {
+                      setSelectedItem(file.name); // 选中当前
+                    }
+                  };
+
+                  const fileCardElement = (
+                    <div
+                      style={{
+                        padding: isMobileDevice ? '12px 4px' : '16px 8px',
+                        cursor: isMobileDevice ? 'pointer' : 'context-menu',
+                        background: '#fff',
+                        width: isMobileDevice ? '120px' : '120px',
+                        height: isMobileDevice ? 'auto' : '180px',
+                        borderRadius: '4px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        margin: isMobileDevice ? '0 4px 4px 0' : '0 8px 8px 0',
+                        touchAction: 'manipulation'
+                      }}
+                      onClick={handleClick}
+                      onDoubleClick={() => {
+                        if (longPressTriggered.current) {
+                          longPressTriggered.current = false;
+                          return;
+                        }
+                        if (file.isDirectory) {
+                          setCurrentPath(currentPath === '.' ? file.name : `${currentPath}/${file.name}`);
+                        } else {
+                          handleEdit(file);
+                        }
+                      }}
+                      // 移动端长按事件
+                      onMouseDown={(e) => handleLongPressStart(e, file)}
+                      onMouseUp={handleLongPressEnd}
+                      onMouseLeave={handleLongPressEnd}
+                      onTouchStart={(e) => handleLongPressStart(e, file)}
+                      onTouchEnd={handleLongPressEnd}
+                      onTouchCancel={handleLongPressEnd}
+                    >
+                      <div 
+                        style={{ 
+                          width: isMobileDevice ? 48 : 80, 
+                          height: isMobileDevice ? 48 : 80,
+                          marginBottom: 8,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: '4px',
+                          backgroundColor: isSelected ? token.colorFillSecondary : 'transparent'
+                        }}
+                      >
+                        <div style={{ fontSize: isMobileDevice ? 28 : 48 }}>
+                          {file.isDirectory ? <FolderOpenTwoTone /> : fileIcon}
                         </div>
+                      </div>
+                      <div 
+                        style={{ 
+                          wordBreak: 'break-word', 
+                          overflowWrap: 'break-word',
+                          textAlign: 'center',
+                          padding: '2px 4px',
+                          borderRadius: '4px',
+                          backgroundColor: isSelected ? token.colorPrimary : 'transparent',
+                          userSelect: 'none',
+                          fontSize: isMobileDevice ? '11px' : 'inherit',
+                          width: '100%',
+                          minWidth: 0,
+                          maxWidth: '100%',
+                          flex: 1
+                        }}
+                      >
+                        <Typography.Text style={{ 
+                          color: isSelected ? token.colorTextLightSolid : 'inherit', 
+                          userSelect: 'none',
+                          display: 'block',
+                          width: '100%'
+                        }}>
+                          {file.name}
+                        </Typography.Text>
+                      </div>
+                    </div>
+                  );
+
+                  if (isMobileDevice) {
+                    // 移动端：直接返回卡片
+                    return <div key={file.name}>{fileCardElement}</div>;
+                  } else {
+                    // PC端：使用Dropdown包裹
+                    return (
+                      <Dropdown 
+                        key={file.name}
+                        menu={{ items: getMenuItems() }} 
+                        trigger={['contextMenu']} 
+                        onContextMenu={e => handleContextMenu(e, file)}
+                      >
+                        {fileCardElement}
                       </Dropdown>
                     );
-                  })}
-                </div>
-              </Dropdown>
+                  }
+                })}
+              </div>
             </Spin>
           </div>
         </div>
         
         {/* 底部面包屑固定 */}
-        <div style={{ textAlign: 'right', paddingTop: 16, borderTop: '1px solid #f0f0f0', flexShrink: 0 }}>
+        <div style={{ textAlign: 'right', paddingTop: 16, borderTop: `1px solid ${token.colorBorder}`, flexShrink: 0 }}>
           <Breadcrumb>
             {currentPath === '.' ? (
               <Breadcrumb.Item onClick={() => setCurrentPath('.')}>根目录</Breadcrumb.Item>

@@ -204,6 +204,70 @@ app.get('/api/training/months', (req, res) => {
   }
 });
 
+// 仪表盘 API - 身体数据
+const dashboardBaseDir = path.join(basePath, 'user', 'dashboard');
+
+// 确保目录存在
+if (!fs.existsSync(dashboardBaseDir)) {
+  fs.mkdirSync(dashboardBaseDir, { recursive: true });
+}
+
+// 获取身体数据
+app.get('/api/dashboard/body-data', (req, res) => {
+  const filePath = path.join(dashboardBaseDir, 'body-data.json');
+  
+  try {
+    if (!fs.existsSync(filePath)) {
+      return res.json({ data: null });
+    }
+    const content = fs.readFileSync(filePath, 'utf8');
+    const data = JSON.parse(content);
+    res.json({ data });
+  } catch (err) {
+    res.json({ error: err.message, data: null });
+  }
+});
+
+// 保存身体数据
+app.post('/api/dashboard/body-data', (req, res) => {
+  const filePath = path.join(dashboardBaseDir, 'body-data.json');
+  
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(req.body, null, 2), 'utf8');
+    res.json({ success: true });
+  } catch (err) {
+    res.json({ error: err.message, success: false });
+  }
+});
+
+// 获取待办事项
+app.get('/api/dashboard/todos', (req, res) => {
+  const filePath = path.join(dashboardBaseDir, 'todos.json');
+  
+  try {
+    if (!fs.existsSync(filePath)) {
+      return res.json({ data: [] });
+    }
+    const content = fs.readFileSync(filePath, 'utf8');
+    const data = JSON.parse(content);
+    res.json({ data });
+  } catch (err) {
+    res.json({ error: err.message, data: [] });
+  }
+});
+
+// 保存待办事项
+app.post('/api/dashboard/todos', (req, res) => {
+  const filePath = path.join(dashboardBaseDir, 'todos.json');
+  
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(req.body, null, 2), 'utf8');
+    res.json({ success: true });
+  } catch (err) {
+    res.json({ error: err.message, success: false });
+  }
+});
+
 // Serve static files first
 app.use(express.static(path.join(__dirname, 'build')));
 

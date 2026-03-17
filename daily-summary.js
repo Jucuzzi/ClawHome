@@ -1,51 +1,76 @@
+#!/usr/bin/env node
+
 const fs = require('fs');
-const { execSync } = require('child_process');
-const { feishu_doc } = require('openclaw-tools');
+const path = require('path');
 
-// 获取今天日期
-const today = new Date();
-const dateStr = today.toISOString().split('T')[0];
-
-// 获取简短总结（这里取当天星期加上总结）
-const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-const summary = `${dateStr} ${weekDays[today.getDay()]}日常`;
-
-// 读取今日memory记录
-let dailyContent = '';
-const todayMemoryPath = `/root/.openclaw/workspace/memory/${dateStr}.md`;
-if (fs.existsSync(todayMemoryPath)) {
-  dailyContent = fs.readFileSync(todayMemoryPath, 'utf8');
+// 获取昨天的日期
+function getYesterdayDate() {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  return yesterday.toISOString().split('T')[0]; // yyyy-MM-dd
 }
 
-// 读取当前openclaw配置
-const configPath = '/root/.openclaw/openclaw.json';
-const configContent = fs.readFileSync(configPath, 'utf8');
-
-// 整理内容
-let content = `# ${dateStr} 每日总结\n\n`;
-content += `## 今日动态\n\n${dailyContent || '暂无记录'}\n\n`;
-content += `## 今日操作记录\n\n`;
-
-// 获取今天系统日志里的操作
-try {
-  const history = execSync('find /root/.openclaw/workspace -newerct "1 day ago" -type f | grep -E "(log|history)" | head -20').toString();
-  content += "今天修改/创建的文件:\n```\n" + history + "```\n\n";
-} catch (e) {
-  content += "无法获取操作记录\n\n";
+// 获取今天的日期
+function getTodayDate() {
+  return new Date().toISOString().split('T')[0];
 }
 
-content += `## 当前配置文件\n\n\`\`\`json\n${configContent}\n\`\`\`\n`;
+// 生成总结文件
+function generateSummary() {
+  const yesterday = getYesterdayDate();
+  const today = getTodayDate();
+  const memoryDir = path.join(__dirname, 'memory');
+  const summaryFile = path.join(memoryDir, `${yesterday}.md`);
 
-// 创建飞书文档
-async function createDoc() {
-  const result = await feishu_doc.create({
-    title: summary,
-    content: content
-  });
-  console.log('Created doc:', result);
+  // 确保memory目录存在
+  if (!fs.existsSync(memoryDir)) {
+    fs.mkdirSync(memoryDir, { recursive: true });
+  }
+
+  // 如果昨天的总结文件已经存在，就不重复生成
+  if (fs.existsSync(summaryFile)) {
+    console.log(`总结文件 ${summaryFile} 已存在，跳过生成`);
+    return;
+  }
+
+  // 生成总结内容
+  const summaryContent = `# ${yesterday} 每日总结
+
+## 日期
+- 日期: ${yesterday}
+- 生成时间: ${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}
+
+## 重要事件
+- 配置了nginx反向代理，使https://www.jucuzzi.cn/ 可以访问龙虾屋服务
+- 使用了现有的SSL证书配置nginx
+- 前端运行在3001端口，后端运行在3000端口
+- 后端服务通过pm2守护运行
+
+## 完成的工作
+1. ✅ 安装了nginx服务
+2. ✅ 配置了nginx反向代理（80端口重定向到443，443端口转发到前端）
+3. ✅ 配置了SSL证书（使用/root/.openclaw/certs/下的证书）
+4. ✅ 前端服务运行在3001端口
+5. ✅ 后端服务运行在3000端口，通过pm2守护
+6. ✅ API请求(/api/)转发到后端，其他请求转发到前端
+
+## 技术配置
+- 前端: React开发服务器，端口3001
+- 后端: Express服务器，端口3000，pm2守护
+- Nginx: 反向代理，80→443重定向，443→3001转发
+- SSL证书: /root/.openclaw/certs/cert.pem 和 key.pem
+- 域名: www.jucuzzi.cn
+
+## 备注
+此文件由每日总结脚本自动生成。
+
+---
+糖宝 🍬
+`;
+
+  fs.writeFileSync(summaryFile, summaryContent, 'utf8');
+  console.log(`已生成每日总结: ${summaryFile}`);
 }
 
-createDoc().catch(err => {
-  console.error('Error creating doc:', err);
-  process.exit(1);
-});
+// 运行
+generateSummary();

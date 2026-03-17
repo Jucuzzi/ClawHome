@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Card, List, Typography, Tag, Spin, Empty, Space, Divider } from 'antd';
+import { Layout, Card, List, Typography, Tag, Spin, Empty, Space, Divider, theme } from 'antd';
 import { UserOutlined, RobotOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
+const { useToken } = theme;
 
 function ChatHistory() {
+  const { token } = useToken();
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -98,8 +100,8 @@ function ChatHistory() {
                       key={message.id || index}
                       size="small"
                       style={{
-                        backgroundColor: message.role === 'user' ? '#f0f5ff' : '#f6ffed',
-                        borderLeft: `4px solid ${message.role === 'user' ? '#1890ff' : '#52c41a'}`
+                        backgroundColor: message.role === 'user' ? token.colorInfoBg : token.colorSuccessBg,
+                        borderLeft: `4px solid ${message.role === 'user' ? token.colorInfo : token.colorSuccess}`
                       }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>

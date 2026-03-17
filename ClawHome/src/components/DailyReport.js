@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Typography, Card, Collapse, Spin, Alert } from 'antd';
+import { Layout, Typography, Card, Collapse, Spin, Alert, theme } from 'antd';
 import { FileTextOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
 const { Panel } = Collapse;
+const { useToken } = theme;
 
 function DailyReport() {
+  const { token } = useToken();
   const [memoryFiles, setMemoryFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -91,7 +93,7 @@ function DailyReport() {
               key={file.name}
             >
               <Card 
-                style={{ backgroundColor: '#fafafa' }} 
+                style={{ backgroundColor: token.colorBgLayout }} 
                 bodyStyle={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
               >
                 {file.content}

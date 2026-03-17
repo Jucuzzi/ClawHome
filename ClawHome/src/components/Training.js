@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Calendar, Card, List, Input, Button, Space, Tag, Modal, Form, message, Spin, Checkbox } from 'antd';
+import { Typography, Calendar, Card, List, Input, Button, Space, Tag, Modal, Form, message, Spin, Checkbox, theme } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+
+const { useToken } = theme;
 
 const trainingParts = [
   { label: '肩', value: '肩' },
@@ -14,6 +16,7 @@ const trainingParts = [
 ];
 
 function Training() {
+  const { token } = useToken();
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [currentMonth, setCurrentMonth] = useState(dayjs().format('YYYY-MM'));
   const [records, setRecords] = useState([]);
@@ -74,7 +77,22 @@ function Training() {
 
   const onSelect = (date) => {
     setSelectedDate(date);
-    setEditingIndex(null);
+    const month = date.format('YYYY-MM');
+    const key = date.format('YYYY-MM-DD');
+    const monthData = monthDataCache[month] || {};
+    const dayRecords = monthData[key] || [];
+    
+    if (dayRecords.length > 0) {
+      // 有记录，打开编辑弹窗
+      setEditingIndex(0);
+      form.setFieldsValue(dayRecords[0]);
+      setModalVisible(true);
+    } else {
+      // 没有记录，打开新增弹窗
+      setEditingIndex(null);
+      form.resetFields();
+      setModalVisible(true);
+    }
   };
 
   const openAddModal = () => {
@@ -91,7 +109,12 @@ function Training() {
   };
 
   const handleSaveRecord = (values) => {
-    let newRecords = [...records];
+    const month = selectedDate.format('YYYY-MM');
+    const key = selectedDate.format('YYYY-MM-DD');
+    const monthData = monthDataCache[month] || {};
+    const dayRecords = monthData[key] || [];
+    
+    let newRecords = [...dayRecords];
     if (editingIndex !== null) {
       // 编辑已有记录
       newRecords[editingIndex] = values;
@@ -99,32 +122,32 @@ function Training() {
       // 添加新记录
       newRecords.push(values);
     }
-    setRecords(newRecords);
-    saveCurrentMonth(newRecords);
+    
+    // 更新缓存
+    const newMonthData = {
+      ...monthDataCache[month],
+      [key]: newRecords
+    };
+    setMonthDataCache(prev => ({
+      ...prev,
+      [month]: newMonthData
+    }));
+
+    // 保存到后端
+    saveToBackend(month, key, newRecords);
     setModalVisible(false);
     setEditingIndex(null);
     form.resetFields();
   };
 
-  const saveCurrentMonth = async (newRecords) => {
+  const saveToBackend = async (month, date, newRecords) => {
     try {
-      // 更新缓存
-      const newMonthData = {
-        ...monthDataCache[currentMonth],
-        [dateStr]: newRecords
-      };
-      setMonthDataCache(prev => ({
-        ...prev,
-        [currentMonth]: newMonthData
-      }));
-
-      // 保存到后端
       const response = await fetch('/api/training/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          month: currentMonth, 
-          date: dateStr, 
+          month, 
+          date, 
           records: newRecords 
         })
       });
@@ -139,11 +162,25 @@ function Training() {
     }
   };
 
-  const handleDeleteRecord = (index) => {
-    const newRecords = [...records];
-    newRecords.splice(index, 1);
-    setRecords(newRecords);
-    saveCurrentMonth(newRecords);
+  const handleDeleteRecord = () => {
+    const month = selectedDate.format('YYYY-MM');
+    const key = selectedDate.format('YYYY-MM-DD');
+    
+    // 删除当天记录
+    const newMonthData = { ...monthDataCache[month] };
+    delete newMonthData[key];
+    
+    setMonthDataCache(prev => ({
+      ...prev,
+      [month]: newMonthData
+    }));
+
+    // 保存到后端（空数组会删除记录）
+    saveToBackend(month, key, []);
+    
+    setModalVisible(false);
+    setEditingIndex(null);
+    form.resetFields();
   };
 
   // 计算本月总训练次数
@@ -234,19 +271,19 @@ function Training() {
   const hasRecords = records.length > 0;
 
   return (
-    <div style={{ margin: '16px', padding: '16px', background: '#fff', borderRadius: '4px', minHeight: 'calc(100vh - 64px - 32px - 32px)' }}>
+    <div style={{ margin: '16px', padding: '16px', background: token.colorBgContainer, borderRadius: '4px', height: 'calc(100vh - 64px - 32px - 32px)', display: 'flex', flexDirection: 'column' }}>
       {contextHolder}
-      <div style={{ display: 'flex', gap: '24px', flexDirection: 'column' }}>
-        <div>
-          <Typography.Title level={3} style={{ margin: 0 }}>
-            📅 健身计划 · {selectedDate.format('YYYY年MM月')}
-            {getMonthTrainingCount() > 0 && <Tag color="blue" style={{ marginLeft: 12 }}>本月训练 {getMonthTrainingCount()} 天</Tag>}
-          </Typography.Title>
-        </div>
-        
-        {/* 全屏大日历模块，带loading */}
-        <Card>
-          <Spin spinning={loadingMonth}>
+      <div style={{ marginBottom: '16px' }}>
+        <Typography.Title level={3} style={{ margin: 0 }}>
+          📅 健身计划 · {selectedDate.format('YYYY年MM月')}
+          {getMonthTrainingCount() > 0 && <Tag color="blue" style={{ marginLeft: 12 }}>本月训练 {getMonthTrainingCount()} 天</Tag>}
+        </Typography.Title>
+      </div>
+      
+      {/* 日历占满整个content区域 */}
+      <Card style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <Spin spinning={loadingMonth}>
+          <div style={{ flex: 1, overflow: 'auto', minHeight: '800px' }}>
             <Calendar 
               fullscreen={true} 
               onSelect={onSelect}
@@ -254,80 +291,36 @@ function Training() {
               value={selectedDate}
               cellRender={cellRender}
             />
-          </Spin>
-        </Card>
-
-        {/* 当日健身记录 - 放在日历下面 */}
-        <Card 
-          title={`📝 ${dateStr} 详细记录`}
-          extra={
-            <Button 
-              type="primary" 
-              icon={hasRecords ? <EditOutlined /> : <PlusOutlined />} 
-              onClick={openAddModal} 
-              size="small"
-            >
-              {hasRecords ? '添加/编辑记录' : '添加记录'}
-            </Button>
-          }
-        >
-          <Spin spinning={loading}>
-            {records.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
-                今天还没有健身记录哦<br/>
-                点击右上角添加吧💪
-              </div>
-            ) : (
-              <List
-                dataSource={records}
-                renderItem={(item, index) => (
-                  <List.Item
-                    actions={[
-                      <Button 
-                        type="text" 
-                        icon={<EditOutlined />} 
-                        onClick={() => handleEditRecord(index)}
-                        size="small"
-                      />,
-                      <Button 
-                        type="text" 
-                        danger 
-                        icon={<DeleteOutlined />} 
-                        onClick={() => handleDeleteRecord(index)}
-                        size="small"
-                      />
-                    ]}
-                  >
-                    <Space direction="vertical" style={{ width: '100%' }}>
-                      <Space wrap>
-                        <Tag color="green">{item.type}</Tag>
-                        {item.duration && <Tag color="blue">{item.duration}分钟</Tag>}
-                        {item.parts && item.parts.map(part => (
-                          <Tag key={part} color="purple">{part}</Tag>
-                        ))}
-                      </Space>
-                      <div style={{ whiteSpace: 'pre-wrap' }}>{item.content}</div>
-                    </Space>
-                  </List.Item>
-                )}
-              />
-            )}
-          </Spin>
-        </Card>
-      </div>
+          </div>
+        </Spin>
+      </Card>
 
       {/* 添加/编辑记录弹窗 */}
       <Modal
-        title={editingIndex !== null ? `编辑记录` : `添加 ${dateStr} 健身记录`}
+        title={editingIndex !== null ? `编辑 ${dateStr} 记录` : `添加 ${dateStr} 健身记录`}
         open={modalVisible}
         onCancel={() => {
           setModalVisible(false);
           setEditingIndex(null);
           form.resetFields();
         }}
-        onOk={() => form.submit()}
-        okText={editingIndex !== null ? '保存修改' : '添加'}
-        cancelText="取消"
+        footer={[
+          <Button key="cancel" onClick={() => {
+            setModalVisible(false);
+            setEditingIndex(null);
+            form.resetFields();
+          }}>
+            取消
+          </Button>,
+          editingIndex !== null && (
+            <Button key="delete" danger onClick={handleDeleteRecord}>
+              删除记录
+            </Button>
+          ),
+          <Button key="submit" type="primary" onClick={() => form.submit()}>
+            {editingIndex !== null ? '保存修改' : '添加'}
+          </Button>,
+        ]}
       >
         <Form form={form} layout="vertical" onFinish={handleSaveRecord}>
           <Form.Item

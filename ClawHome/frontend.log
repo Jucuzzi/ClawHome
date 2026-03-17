@@ -1,0 +1,546 @@
+npm warn exec The following package was not found and will be installed: serve@14.2.6
+ INFO  Accepting connections at http://localhost:3001
+ HTTP  3/15/2026 3:02:53 PM ::1 GET /
+ HTTP  3/15/2026 3:02:53 PM ::1 Returned 200 in 18 ms
+ HTTP  3/15/2026 3:04:40 PM 127.0.0.1 GET /filemanager
+ HTTP  3/15/2026 3:04:40 PM 127.0.0.1 Returned 200 in 2 ms
+ HTTP  3/15/2026 3:04:40 PM 127.0.0.1 GET /static/js/main.cbbc2ee9.js
+ HTTP  3/15/2026 3:04:40 PM 127.0.0.1 GET /static/css/main.e6c13ad2.css
+ HTTP  3/15/2026 3:04:40 PM 127.0.0.1 Returned 200 in 2 ms
+ HTTP  3/15/2026 3:04:40 PM 127.0.0.1 Returned 200 in 9 ms
+ HTTP  3/15/2026 3:04:40 PM 127.0.0.1 GET /lobster-logo.svg
+ HTTP  3/15/2026 3:04:40 PM 127.0.0.1 Returned 200 in 2 ms
+ HTTP  3/15/2026 3:04:49 PM 127.0.0.1 GET /filemanager
+ HTTP  3/15/2026 3:04:49 PM 127.0.0.1 Returned 200 in 2 ms
+ HTTP  3/15/2026 3:04:49 PM 127.0.0.1 GET /static/css/main.e6c13ad2.css
+ HTTP  3/15/2026 3:04:49 PM 127.0.0.1 GET /static/js/main.cbbc2ee9.js
+ HTTP  3/15/2026 3:04:49 PM 127.0.0.1 Returned 304 in 1 ms
+ HTTP  3/15/2026 3:04:49 PM 127.0.0.1 Returned 304 in 2 ms
+ HTTP  3/15/2026 3:04:49 PM 127.0.0.1 GET /lobster-logo.svg
+ HTTP  3/15/2026 3:04:49 PM 127.0.0.1 Returned 304 in 2 ms
+ HTTP  3/15/2026 3:05:01 PM 127.0.0.1 GET /lobster-logo.svg
+ HTTP  3/15/2026 3:05:01 PM 127.0.0.1 Returned 304 in 1 ms
+ HTTP  3/15/2026 3:05:02 PM 127.0.0.1 GET /training
+ HTTP  3/15/2026 3:05:02 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:05:03 PM 127.0.0.1 GET /static/css/main.e6c13ad2.css
+ HTTP  3/15/2026 3:05:03 PM 127.0.0.1 Returned 304 in 1 ms
+ HTTP  3/15/2026 3:05:03 PM 127.0.0.1 GET /static/js/main.cbbc2ee9.js
+ HTTP  3/15/2026 3:05:03 PM 127.0.0.1 Returned 304 in 0 ms
+ HTTP  3/15/2026 3:05:03 PM 127.0.0.1 GET /lobster-logo.svg
+ HTTP  3/15/2026 3:05:03 PM 127.0.0.1 Returned 304 in 1 ms
+ HTTP  3/15/2026 3:11:31 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 3:11:31 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:13:16 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 3:13:16 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:17:37 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 3:17:37 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:24:50 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 3:24:50 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:24:52 PM 127.0.0.1 GET /manage/account/login
+ HTTP  3/15/2026 3:24:52 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:24:55 PM 127.0.0.1 GET /admin/index.html
+ HTTP  3/15/2026 3:24:55 PM 127.0.0.1 Returned 301 in 1 ms
+ HTTP  3/15/2026 3:24:58 PM 127.0.0.1 GET /admin/index
+ HTTP  3/15/2026 3:24:58 PM 127.0.0.1 Returned 301 in 1 ms
+ HTTP  3/15/2026 3:25:03 PM 127.0.0.1 GET /admin
+ HTTP  3/15/2026 3:25:03 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:53:26 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 3:53:26 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:53:26 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 3:53:26 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:53:26 PM 127.0.0.1 GET /static/js/main.cbbc2ee9.js
+ HTTP  3/15/2026 3:53:26 PM 127.0.0.1 Returned 200 in 2 ms
+ HTTP  3/15/2026 3:53:30 PM 127.0.0.1 GET /favicon.ico
+ HTTP  3/15/2026 3:53:30 PM 127.0.0.1 Returned 200 in 2 ms
+ HTTP  3/15/2026 3:53:35 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 3:53:35 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:53:35 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 3:53:35 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:53:35 PM 127.0.0.1 GET /static/js/main.cbbc2ee9.js
+ HTTP  3/15/2026 3:53:35 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:53:39 PM 127.0.0.1 GET /favicon.ico
+ HTTP  3/15/2026 3:53:39 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:55:27 PM 127.0.0.1 GET /autodiscover/autodiscover.json?@zdi/Powershell
+ HTTP  3/15/2026 3:55:27 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:56:42 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 3:56:42 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 3:56:42 PM 127.0.0.1 GET /favicon.ico
+ HTTP  3/15/2026 3:56:42 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:37:19 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 4:37:19 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:20 PM 127.0.0.1 POST /hello.world?%ADd+allow_url_include%3d1+%ADd+auto_prepend_file%3dphp://input
+ HTTP  3/15/2026 4:41:20 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:20 PM 127.0.0.1 POST /?%ADd+allow_url_include%3d1+%ADd+auto_prepend_file%3dphp://input
+ HTTP  3/15/2026 4:41:20 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 4:41:21 PM 127.0.0.1 GET /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:21 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:21 PM 127.0.0.1 GET /vendor/phpunit/phpunit/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:21 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:21 PM 127.0.0.1 GET /vendor/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:21 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:22 PM 127.0.0.1 GET /vendor/phpunit/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:22 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 4:41:22 PM 127.0.0.1 GET /vendor/phpunit/phpunit/LICENSE/eval-stdin.php
+ HTTP  3/15/2026 4:41:22 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:22 PM 127.0.0.1 GET /vendor/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:22 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:23 PM 127.0.0.1 GET /phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:23 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:25 PM 127.0.0.1 GET /phpunit/phpunit/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:25 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:25 PM 127.0.0.1 GET /phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:25 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:25 PM 127.0.0.1 GET /phpunit/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:25 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 4:41:26 PM 127.0.0.1 GET /lib/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:26 PM 127.0.0.1 Returned 200 in 2 ms
+ HTTP  3/15/2026 4:41:26 PM 127.0.0.1 GET /lib/phpunit/phpunit/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:26 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 4:41:27 PM 127.0.0.1 GET /lib/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:27 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:28 PM 127.0.0.1 GET /lib/phpunit/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:28 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:28 PM 127.0.0.1 GET /lib/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:28 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:28 PM 127.0.0.1 GET /laravel/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:28 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:29 PM 127.0.0.1 GET /www/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:29 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:29 PM 127.0.0.1 GET /ws/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:29 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:30 PM 127.0.0.1 GET /yii/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:30 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:31 PM 127.0.0.1 GET /zend/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:31 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:31 PM 127.0.0.1 GET /ws/ec/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:31 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:33 PM 127.0.0.1 GET /V2/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:33 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:35 PM 127.0.0.1 GET /tests/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:35 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:35 PM 127.0.0.1 GET /test/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:35 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:36 PM 127.0.0.1 GET /testing/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:36 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:36 PM 127.0.0.1 GET /demo/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:36 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:37 PM 127.0.0.1 GET /cms/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:37 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:37 PM 127.0.0.1 GET /crm/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:37 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 4:41:37 PM 127.0.0.1 GET /admin/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:37 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:37 PM 127.0.0.1 GET /backup/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:37 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:38 PM 127.0.0.1 GET /blog/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:38 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:39 PM 127.0.0.1 GET /workspace/drupal/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:39 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:41 PM 127.0.0.1 GET /panel/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:41 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:42 PM 127.0.0.1 GET /public/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:42 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:42 PM 127.0.0.1 GET /apps/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:42 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 4:41:42 PM 127.0.0.1 GET /app/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 4:41:42 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:43 PM 127.0.0.1 GET /index.php?s=/index/\think\app/invokefunction&function=call_user_func_array&vars[0]=md5&vars[1][]=Hello
+ HTTP  3/15/2026 4:41:43 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 4:41:44 PM 127.0.0.1 GET /public/index.php?s=/index/\think\app/invokefunction&function=call_user_func_array&vars[0]=md5&vars[1][]=Hello
+ HTTP  3/15/2026 4:41:44 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 4:41:45 PM 127.0.0.1 GET /index.php?lang=../../../../../../../../usr/local/lib/php/pearcmd&+config-create+/&/<?echo(md5("hi"));?>+/tmp/index1.php
+ HTTP  3/15/2026 4:41:45 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:45 PM 127.0.0.1 GET /index.php?lang=../../../../../../../../tmp/index1
+ HTTP  3/15/2026 4:41:45 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 4:41:46 PM 127.0.0.1 GET /containers/json
+ HTTP  3/15/2026 4:41:46 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 5:05:53 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 5:05:53 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 5:35:35 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 5:35:35 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 5:36:36 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 5:36:36 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 5:43:42 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 5:43:42 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 5:48:12 PM 127.0.0.1 GET /webui/
+ HTTP  3/15/2026 5:48:12 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 5:48:57 PM 127.0.0.1 GET /.streamlit/secrets.toml
+ HTTP  3/15/2026 5:48:57 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 5:51:18 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 5:51:18 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 5:55:20 PM 127.0.0.1 GET /favicon.ico
+ HTTP  3/15/2026 5:55:20 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 6:06:40 PM 127.0.0.1 GET /geoserver/web/
+ HTTP  3/15/2026 6:06:40 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 6:11:14 PM 127.0.0.1 GET /.git/config
+ HTTP  3/15/2026 6:11:14 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 6:12:19 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 6:12:19 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 6:12:23 PM 127.0.0.1 GET /nmaplowercheck1773569543
+ HTTP  3/15/2026 6:12:23 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 6:12:23 PM 127.0.0.1 POST /sdk
+ HTTP  3/15/2026 6:12:23 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 6:12:23 PM 127.0.0.1 GET /NmapUpperCheck1773569543
+ HTTP  3/15/2026 6:12:23 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 6:12:23 PM 127.0.0.1 GET /Nmap/folder/check1773569543
+ HTTP  3/15/2026 6:12:23 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 6:12:43 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 6:12:43 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 6:12:43 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 6:12:43 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 6:30:03 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 6:30:03 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 6:41:27 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 6:41:27 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 6:59:11 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 6:59:11 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 6:59:11 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 6:59:11 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 7:13:21 PM 127.0.0.1 GET /Dr0v
+ HTTP  3/15/2026 7:13:21 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 7:15:13 PM 127.0.0.1 POST /xhr/front/trade/priority/rushPurchase
+ HTTP  3/15/2026 7:15:13 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 7:36:08 PM 127.0.0.1 GET /robots.txt
+ HTTP  3/15/2026 7:36:08 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 7:47:08 PM 127.0.0.1 GET /robots.txt
+ HTTP  3/15/2026 7:47:08 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 8:14:30 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 8:14:30 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 8:28:37 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 8:28:37 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 8:32:31 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 8:32:31 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 8:52:07 PM 127.0.0.1 GET /.env
+ HTTP  3/15/2026 8:52:07 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 8:52:10 PM 127.0.0.1 POST /
+ HTTP  3/15/2026 8:52:10 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 8:52:21 PM 127.0.0.1 POST /core/.env
+ HTTP  3/15/2026 8:52:21 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 8:52:23 PM 127.0.0.1 GET /core/.env
+ HTTP  3/15/2026 8:52:23 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 8:52:24 PM 127.0.0.1 POST /
+ HTTP  3/15/2026 8:52:24 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 8:52:28 PM 127.0.0.1 POST /core/.env
+ HTTP  3/15/2026 8:52:28 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:02:21 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 9:02:21 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:02:32 PM 127.0.0.1 GET /favicon.ico
+ HTTP  3/15/2026 9:02:32 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:08:49 PM 127.0.0.1 GET /security.txt
+ HTTP  3/15/2026 9:08:49 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:29:39 PM 127.0.0.1 GET /developmentserver/metadatauploader
+ HTTP  3/15/2026 9:29:39 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:32:14 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 9:32:14 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:32:14 PM 127.0.0.1 GET /favicon.ico
+ HTTP  3/15/2026 9:32:14 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:41:04 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 9:41:04 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:41:05 PM 127.0.0.1 GET /favicon.ico
+ HTTP  3/15/2026 9:41:05 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:41:16 PM 127.0.0.1 GET /.well-known/security.txt
+ HTTP  3/15/2026 9:41:16 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:41:16 PM 127.0.0.1 GET /cmukttxir6qxd
+ HTTP  3/15/2026 9:41:16 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:43:57 PM 127.0.0.1 POST /hello.world?%ADd+allow_url_include%3d1+%ADd+auto_prepend_file%3dphp://input
+ HTTP  3/15/2026 9:43:57 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:44:02 PM 127.0.0.1 POST /?%ADd+allow_url_include%3d1+%ADd+auto_prepend_file%3dphp://input
+ HTTP  3/15/2026 9:44:02 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:03 PM 127.0.0.1 GET /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:03 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:04 PM 127.0.0.1 GET /vendor/phpunit/phpunit/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:04 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:06 PM 127.0.0.1 GET /vendor/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:06 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:07 PM 127.0.0.1 GET /vendor/phpunit/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:07 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:13 PM 127.0.0.1 GET /vendor/phpunit/phpunit/LICENSE/eval-stdin.php
+ HTTP  3/15/2026 9:44:13 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:14 PM 127.0.0.1 GET /vendor/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:14 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:14 PM 127.0.0.1 GET /phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:14 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:44:15 PM 127.0.0.1 GET /phpunit/phpunit/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:15 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:18 PM 127.0.0.1 GET /phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:18 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:44:21 PM 127.0.0.1 GET /phpunit/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:21 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:44:24 PM 127.0.0.1 GET /lib/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:24 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:28 PM 127.0.0.1 GET /lib/phpunit/phpunit/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:28 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:44:29 PM 127.0.0.1 GET /lib/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:29 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:30 PM 127.0.0.1 GET /lib/phpunit/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:30 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:31 PM 127.0.0.1 GET /lib/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:31 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:34 PM 127.0.0.1 GET /laravel/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:34 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:44:35 PM 127.0.0.1 GET /www/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:35 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:40 PM 127.0.0.1 GET /ws/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:40 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:42 PM 127.0.0.1 GET /yii/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:42 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:44:48 PM 127.0.0.1 GET /zend/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:48 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:44:59 PM 127.0.0.1 GET /ws/ec/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:44:59 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:00 PM 127.0.0.1 GET /V2/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:00 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:45:01 PM 127.0.0.1 GET /tests/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:01 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:03 PM 127.0.0.1 GET /test/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:03 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:04 PM 127.0.0.1 GET /testing/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:04 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:09 PM 127.0.0.1 GET /demo/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:09 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:20 PM 127.0.0.1 GET /cms/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:20 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:23 PM 127.0.0.1 GET /crm/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:23 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:45:24 PM 127.0.0.1 GET /admin/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:24 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:25 PM 127.0.0.1 GET /backup/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:25 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:29 PM 127.0.0.1 GET /blog/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:29 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:32 PM 127.0.0.1 GET /workspace/drupal/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:32 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:39 PM 127.0.0.1 GET /panel/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:39 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:40 PM 127.0.0.1 GET /public/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:40 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:41 PM 127.0.0.1 GET /apps/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:41 PM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/15/2026 9:45:45 PM 127.0.0.1 GET /app/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+ HTTP  3/15/2026 9:45:45 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:46 PM 127.0.0.1 GET /index.php?s=/index/\think\app/invokefunction&function=call_user_func_array&vars[0]=md5&vars[1][]=Hello
+ HTTP  3/15/2026 9:45:46 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:45:47 PM 127.0.0.1 GET /public/index.php?s=/index/\think\app/invokefunction&function=call_user_func_array&vars[0]=md5&vars[1][]=Hello
+ HTTP  3/15/2026 9:45:47 PM 127.0.0.1 Returned 200 in 2 ms
+ HTTP  3/15/2026 9:45:49 PM 127.0.0.1 GET /index.php?lang=../../../../../../../../usr/local/lib/php/pearcmd&+config-create+/&/<?echo(md5("hi"));?>+/tmp/index1.php
+ HTTP  3/15/2026 9:45:49 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:46:00 PM 127.0.0.1 GET /index.php?lang=../../../../../../../../tmp/index1
+ HTTP  3/15/2026 9:46:00 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 9:46:06 PM 127.0.0.1 GET /containers/json
+ HTTP  3/15/2026 9:46:06 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 10:10:40 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 10:10:40 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 10:10:40 PM 127.0.0.1 GET /favicon.ico
+ HTTP  3/15/2026 10:10:40 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 10:14:45 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 10:14:45 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 10:51:29 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 10:51:29 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 10:53:34 PM 127.0.0.1 GET /.well-known/security.txt
+ HTTP  3/15/2026 10:53:34 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 11:03:08 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 11:03:08 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 11:03:10 PM 127.0.0.1 GET /favicon.ico
+ HTTP  3/15/2026 11:03:10 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/15/2026 11:45:51 PM 127.0.0.1 GET /
+ HTTP  3/15/2026 11:45:51 PM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 12:20:38 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 12:20:38 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 12:20:39 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 12:20:39 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 12:25:41 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 12:25:41 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 12:25:41 AM 127.0.0.1 GET /favicon.ico
+ HTTP  3/16/2026 12:25:41 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 12:41:30 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 12:41:30 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 12:41:37 AM 127.0.0.1 PROPFIND /
+ HTTP  3/16/2026 12:41:37 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 12:51:45 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 12:51:45 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 12:54:14 AM 127.0.0.1 GET /favicon.ico
+ HTTP  3/16/2026 12:54:14 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 1:38:02 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 1:38:02 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 1:45:13 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 1:45:13 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 1:48:10 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 1:48:10 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:01:54 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 2:01:54 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:06 AM 127.0.0.1 GET /.env
+ HTTP  3/16/2026 2:27:06 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:06 AM 127.0.0.1 GET /.env.old
+ HTTP  3/16/2026 2:27:06 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 2:27:08 AM 127.0.0.1 GET /server/.env
+ HTTP  3/16/2026 2:27:08 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:08 AM 127.0.0.1 GET /laravel/.env
+ HTTP  3/16/2026 2:27:08 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:09 AM 127.0.0.1 GET /admin/.env
+ HTTP  3/16/2026 2:27:09 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 2:27:09 AM 127.0.0.1 GET /v2/.env
+ HTTP  3/16/2026 2:27:09 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:11 AM 127.0.0.1 GET /.git/HEAD
+ HTTP  3/16/2026 2:27:11 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:11 AM 127.0.0.1 GET /config.js
+ HTTP  3/16/2026 2:27:11 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:12 AM 127.0.0.1 GET /settings.json
+ HTTP  3/16/2026 2:27:12 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 2:27:12 AM 127.0.0.1 GET /credentials.json
+ HTTP  3/16/2026 2:27:12 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:13 AM 127.0.0.1 GET /.aws/credentials
+ HTTP  3/16/2026 2:27:13 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:13 AM 127.0.0.1 GET /appsettings.Development.json
+ HTTP  3/16/2026 2:27:13 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:14 AM 127.0.0.1 GET /application-prod.yml
+ HTTP  3/16/2026 2:27:14 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:14 AM 127.0.0.1 GET /wp-config.php.bak
+ HTTP  3/16/2026 2:27:14 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:15 AM 127.0.0.1 GET /wp-config.php~
+ HTTP  3/16/2026 2:27:15 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:17 AM 127.0.0.1 GET /.yarnrc
+ HTTP  3/16/2026 2:27:17 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:17 AM 127.0.0.1 GET /docker-compose.prod.yml
+ HTTP  3/16/2026 2:27:17 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:18 AM 127.0.0.1 GET /storage/logs/laravel.log
+ HTTP  3/16/2026 2:27:18 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:18 AM 127.0.0.1 GET /actuator/configprops
+ HTTP  3/16/2026 2:27:18 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:19 AM 127.0.0.1 GET /.svn/wc.db
+ HTTP  3/16/2026 2:27:19 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:20 AM 127.0.0.1 GET /backup.sql
+ HTTP  3/16/2026 2:27:20 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:21 AM 127.0.0.1 GET /.pgpass
+ HTTP  3/16/2026 2:27:21 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:21 AM 127.0.0.1 GET /serviceAccountKey.json
+ HTTP  3/16/2026 2:27:21 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:21 AM 127.0.0.1 GET /google-credentials.json
+ HTTP  3/16/2026 2:27:21 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:22 AM 127.0.0.1 GET /service-account.json
+ HTTP  3/16/2026 2:27:22 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:22 AM 127.0.0.1 GET /.env.local.php
+ HTTP  3/16/2026 2:27:22 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:23 AM 127.0.0.1 GET /local.settings.json
+ HTTP  3/16/2026 2:27:23 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:25 AM 127.0.0.1 GET /.env
+ HTTP  3/16/2026 2:27:25 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:27 AM 127.0.0.1 GET /.env~
+ HTTP  3/16/2026 2:27:27 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:27 AM 127.0.0.1 GET /app/.env
+ HTTP  3/16/2026 2:27:27 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:28 AM 127.0.0.1 GET /web/.env
+ HTTP  3/16/2026 2:27:28 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 2:27:29 AM 127.0.0.1 GET /src/.env
+ HTTP  3/16/2026 2:27:29 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 2:27:29 AM 127.0.0.1 GET /.git/config
+ HTTP  3/16/2026 2:27:29 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:29 AM 127.0.0.1 GET /.git/HEAD
+ HTTP  3/16/2026 2:27:29 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:30 AM 127.0.0.1 GET /config.js
+ HTTP  3/16/2026 2:27:30 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:30 AM 127.0.0.1 GET /config.php
+ HTTP  3/16/2026 2:27:30 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:31 AM 127.0.0.1 GET /settings.json
+ HTTP  3/16/2026 2:27:31 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:31 AM 127.0.0.1 GET /.git/logs/HEAD
+ HTTP  3/16/2026 2:27:31 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:32 AM 127.0.0.1 GET /credentials.json
+ HTTP  3/16/2026 2:27:32 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 2:27:32 AM 127.0.0.1 GET /.aws/credentials
+ HTTP  3/16/2026 2:27:32 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 2:27:32 AM 127.0.0.1 GET /application.yml
+ HTTP  3/16/2026 2:27:32 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:33 AM 127.0.0.1 GET /appsettings.Development.json
+ HTTP  3/16/2026 2:27:33 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:33 AM 127.0.0.1 GET /application-prod.yml
+ HTTP  3/16/2026 2:27:33 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:34 AM 127.0.0.1 GET /wp-config.php
+ HTTP  3/16/2026 2:27:34 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:35 AM 127.0.0.1 GET /wp-config.txt
+ HTTP  3/16/2026 2:27:35 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:35 AM 127.0.0.1 GET /wp-config.php.bak
+ HTTP  3/16/2026 2:27:35 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:35 AM 127.0.0.1 GET /docker-compose.yml
+ HTTP  3/16/2026 2:27:35 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:35 AM 127.0.0.1 GET /docker-compose.yaml
+ HTTP  3/16/2026 2:27:35 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:35 AM 127.0.0.1 GET /docker-compose.dev.yml
+ HTTP  3/16/2026 2:27:35 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:36 AM 127.0.0.1 GET /wp-config.php.orig
+ HTTP  3/16/2026 2:27:36 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 2:27:36 AM 127.0.0.1 GET /.npmrc
+ HTTP  3/16/2026 2:27:36 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 2:27:37 AM 127.0.0.1 GET /info.php
+ HTTP  3/16/2026 2:27:37 AM 127.0.0.1 Returned 200 in 5 ms
+ HTTP  3/16/2026 2:27:38 AM 127.0.0.1 GET /web.config
+ HTTP  3/16/2026 2:27:38 AM 127.0.0.1 Returned 200 in 2 ms
+ HTTP  3/16/2026 2:27:38 AM 127.0.0.1 GET /.svn/wc.db
+ HTTP  3/16/2026 2:27:38 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:38 AM 127.0.0.1 GET /.my.cnf
+ HTTP  3/16/2026 2:27:38 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:39 AM 127.0.0.1 GET /backup.sql
+ HTTP  3/16/2026 2:27:39 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:39 AM 127.0.0.1 GET /firebase-adminsdk.json
+ HTTP  3/16/2026 2:27:39 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:40 AM 127.0.0.1 GET /.env.local.php
+ HTTP  3/16/2026 2:27:40 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:40 AM 127.0.0.1 GET /service-account.json
+ HTTP  3/16/2026 2:27:40 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:27:40 AM 127.0.0.1 GET /keyfile.json
+ HTTP  3/16/2026 2:27:40 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 2:55:51 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 2:55:51 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 3:19:34 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 3:19:34 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 3:19:36 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 3:19:36 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 4:58:06 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 4:58:06 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 4:58:14 AM 127.0.0.1 GET /robots.txt
+ HTTP  3/16/2026 4:58:14 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 5:00:55 AM 127.0.0.1 GET /favicon.ico
+ HTTP  3/16/2026 5:00:55 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 5:46:53 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 5:46:53 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 5:46:57 AM 127.0.0.1 POST /
+ HTTP  3/16/2026 5:46:57 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 5:47:17 AM 127.0.0.1 GET /WuEL
+ HTTP  3/16/2026 5:47:17 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 5:47:36 AM 127.0.0.1 GET /a
+ HTTP  3/16/2026 5:47:36 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 5:47:40 AM 127.0.0.1 GET /download/file.ext
+ HTTP  3/16/2026 5:47:40 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 5:47:55 AM 127.0.0.1 GET /SiteLoader
+ HTTP  3/16/2026 5:47:55 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 5:47:57 AM 127.0.0.1 GET /mPlayer
+ HTTP  3/16/2026 5:47:57 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 7:09:05 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 7:09:05 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 7:11:02 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 7:11:02 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 7:46:55 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 7:46:55 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 7:46:55 AM 127.0.0.1 POST /
+ HTTP  3/16/2026 7:46:55 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 7:46:55 AM 127.0.0.1 POST /
+ HTTP  3/16/2026 7:46:55 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 7:46:55 AM 127.0.0.1 POST /
+ HTTP  3/16/2026 7:46:55 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 7:51:30 AM 127.0.0.1 GET /admin/config.php
+ HTTP  3/16/2026 7:51:30 AM 127.0.0.1 Returned 200 in 0 ms
+ HTTP  3/16/2026 8:27:30 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 8:27:30 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 10:15:22 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 10:15:22 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 10:31:51 AM 127.0.0.1 GET /
+ HTTP  3/16/2026 10:31:51 AM 127.0.0.1 Returned 200 in 1 ms
+ HTTP  3/16/2026 10:31:51 AM 127.0.0.1 GET /static/js/main.cbbc2ee9.js
+ HTTP  3/16/2026 10:31:51 AM 127.0.0.1 Returned 200 in 2 ms
+ HTTP  3/16/2026 10:31:51 AM 127.0.0.1 GET /static/css/main.e6c13ad2.css
+ HTTP  3/16/2026 10:31:51 AM 127.0.0.1 Returned 200 in 3 ms
+ HTTP  3/16/2026 10:31:52 AM 127.0.0.1 GET /lobster-logo.svg
+ HTTP  3/16/2026 10:31:52 AM 127.0.0.1 Returned 200 in 2 ms
+ HTTP  3/16/2026 10:31:52 AM 127.0.0.1 GET /favicon.ico
+ HTTP  3/16/2026 10:31:52 AM 127.0.0.1 Returned 200 in 1 ms
+
+ INFO  Gracefully shutting down. Please wait...
