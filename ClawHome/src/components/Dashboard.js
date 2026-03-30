@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Card, Row, Col, Statistic, Progress, List, Tag, Empty, Spin, Space, theme } from 'antd';
 import { HeartOutlined, FireOutlined, ClockCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import { isMobile } from '../utils';
 
 const { Title } = Typography;
 const { useToken } = theme;
@@ -89,12 +90,12 @@ function Dashboard() {
   };
 
   return (
-    <div style={{ padding: '24px', background: token.colorBgContainer, minHeight: 'calc(100vh - 64px)' }}>
+    <div style={{ padding: isMobile() ? '12px' : '24px', background: token.colorBgContainer, minHeight: 'calc(100vh - 64px)' }}>
       <Spin spinning={loading}>
-        <div style={{ marginBottom: '24px' }}>
-          <Title level={2} style={{ margin: 0 }}>
+        <div style={{ marginBottom: isMobile() ? '16px' : '24px' }}>
+          <Title level={isMobile() ? 4 : 2} style={{ margin: 0 }}>
             📊 身体数据大盘
-            <Tag color="blue" style={{ marginLeft: 12 }}>
+            <Tag color="blue" style={{ marginLeft: isMobile() ? 8 : 12 }}>
               {bodyData?.lastUpdate ? `更新于 ${bodyData.lastUpdate}` : '今日更新'}
             </Tag>
           </Title>
@@ -183,138 +184,7 @@ function Dashboard() {
               />
             </Card>
           </Col>
-
-          {/* 静息心率 */}
-          <Col xs={24} sm={12} md={8} lg={6}>
-            <Card>
-              <Statistic
-                title="静息心率"
-                value={bodyData?.restingHeartRate || 0}
-                suffix="bpm"
-                precision={0}
-                prefix={<ClockCircleOutlined />}
-              />
-            </Card>
-          </Col>
-
-          {/* 血压 */}
-          <Col xs={24} sm={12} md={8} lg={6}>
-            <Card>
-              <Statistic
-                title="血压"
-                value={bodyData?.bloodPressure || '--'}
-                precision={0}
-              />
-            </Card>
-          </Col>
-
-          {/* 睡眠时长 */}
-          <Col xs={24} sm={12} md={8} lg={6}>
-            <Card>
-              <Statistic
-                title="今日睡眠"
-                value={bodyData?.sleepHours || 0}
-                suffix="小时"
-                precision={1}
-              />
-              <Progress
-                percent={Math.min(100, (bodyData?.sleepHours / 8) * 100)}
-                size="small"
-                style={{ marginTop: 8 }}
-                status={bodyData?.sleepHours >= 7 ? 'success' : 'exception'}
-              />
-            </Card>
-          </Col>
-
-          {/* 饮水量 */}
-          <Col xs={24} sm={12} md={8} lg={6}>
-            <Card>
-              <Statistic
-                title="今日饮水"
-                value={bodyData?.waterIntake || 0}
-                suffix="ml"
-                precision={0}
-              />
-              <Progress
-                percent={Math.min(100, (bodyData?.waterIntake / 2000) * 100)}
-                size="small"
-                style={{ marginTop: 8 }}
-                status={bodyData?.waterIntake >= 2000 ? 'success' : 'normal'}
-              />
-            </Card>
-          </Col>
-
-          {/* 步数 */}
-          <Col xs={24} sm={12} md={8} lg={6}>
-            <Card>
-              <Statistic
-                title="今日步数"
-                value={bodyData?.steps || 0}
-                precision={0}
-              />
-              <Progress
-                percent={Math.min(100, (bodyData?.steps / 10000) * 100)}
-                size="small"
-                style={{ marginTop: 8 }}
-              />
-            </Card>
-          </Col>
-
-          {/* 消耗热量 */}
-          <Col xs={24} sm={12} md={8} lg={6}>
-            <Card>
-              <Statistic
-                title="消耗热量"
-                value={bodyData?.caloriesBurned || 0}
-                suffix="kcal"
-                precision={0}
-              />
-            </Card>
-          </Col>
         </Row>
-
-        {/* 待办事项 */}
-        <Card 
-          title="📋 待办事项" 
-          style={{ marginTop: 24 }}
-          extra={<Tag color="processing">{todos.length} 项待办</Tag>}
-        >
-          {todos.length === 0 ? (
-            <Empty description="暂无待办事项" />
-          ) : (
-            <List
-              dataSource={todos}
-              renderItem={(item) => (
-                <List.Item
-                  actions={[
-                    <CheckCircleOutlined 
-                      style={{ color: '#52c41a', cursor: 'pointer' }}
-                      onClick={() => handleCompleteTodo(item.id)}
-                    />
-                  ]}
-                >
-                  <List.Item.Meta
-                    title={
-                      <span style={{ textDecoration: item.completed ? 'line-through' : 'none' }}>
-                        {item.title}
-                      </span>
-                    }
-                    description={
-                      <Space>
-                        <Tag color={item.priority === 'high' ? 'red' : item.priority === 'medium' ? 'orange' : 'blue'}>
-                          {item.priority === 'high' ? '高' : item.priority === 'medium' ? '中' : '低'}
-                        </Tag>
-                        <span style={{ color: '#999', fontSize: 12 }}>
-                          {item.dueDate}
-                        </span>
-                      </Space>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
-          )}
-        </Card>
       </Spin>
     </div>
   );

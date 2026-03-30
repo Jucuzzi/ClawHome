@@ -13,14 +13,19 @@
     "express": "^5.2.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "react-markdown": "^10.1.0",
     "react-quill": "^2.0.0",
     "react-router-dom": "^7.13.1",
     "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "^16.1.1",
+    "rehype-raw": "^7.0.0",
+    "rehype-sanitize": "^6.0.0",
+    "remark-gfm": "^4.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && ./sync-to-nginx.sh",
     "build:deploy": "react-scripts build && ./sync-to-nginx.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

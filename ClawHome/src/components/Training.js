@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Calendar, Card, List, Input, Button, Space, Tag, Modal, Form, message, Spin, Checkbox, theme } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import { isMobile } from '../utils';
 
 const { useToken } = theme;
 
@@ -239,16 +240,16 @@ function Training() {
 
         {/* 总时长 */}
         {totalDuration > 0 && (
-          <div style={{ fontSize: 12, color: '#1890ff', fontWeight: 500 }}>
+          <div style={{ fontSize: 12, color: token.colorPrimary, fontWeight: 500 }}>
             ⏱ {totalDuration} 分钟
           </div>
         )}
 
         {/* 第一个记录的简短备注 */}
         {firstContent && (
-          <div style={{ 
-            fontSize: 11, 
-            color: '#666',
+          <div style={{
+            fontSize: 11,
+            color: token.colorTextSecondary,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap'
@@ -271,21 +272,21 @@ function Training() {
   const hasRecords = records.length > 0;
 
   return (
-    <div style={{ margin: '16px', padding: '16px', background: token.colorBgContainer, borderRadius: '4px', height: 'calc(100vh - 64px - 32px - 32px)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ margin: isMobile() ? '8px' : '16px', padding: isMobile() ? '12px' : '16px', background: token.colorBgContainer, borderRadius: '4px', height: 'calc(100vh - 64px - 32px - 32px)', display: 'flex', flexDirection: 'column' }}>
       {contextHolder}
-      <div style={{ marginBottom: '16px' }}>
-        <Typography.Title level={3} style={{ margin: 0 }}>
+      <div style={{ marginBottom: isMobile() ? '12px' : '16px' }}>
+        <Typography.Title level={isMobile() ? 4 : 3} style={{ margin: 0 }}>
           📅 健身计划 · {selectedDate.format('YYYY年MM月')}
-          {getMonthTrainingCount() > 0 && <Tag color="blue" style={{ marginLeft: 12 }}>本月训练 {getMonthTrainingCount()} 天</Tag>}
+          {getMonthTrainingCount() > 0 && <Tag color="blue" style={{ marginLeft: isMobile() ? 8 : 12 }}>本月训练 {getMonthTrainingCount()} 天</Tag>}
         </Typography.Title>
       </div>
       
       {/* 日历占满整个content区域 */}
       <Card style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <Spin spinning={loadingMonth}>
-          <div style={{ flex: 1, overflow: 'auto', minHeight: '800px' }}>
-            <Calendar 
-              fullscreen={true} 
+          <div style={{ flex: 1, overflow: 'auto', minHeight: isMobile() ? '600px' : '800px' }}>
+            <Calendar
+              fullscreen={!isMobile()}
               onSelect={onSelect}
               onPanelChange={onPanelChange}
               value={selectedDate}

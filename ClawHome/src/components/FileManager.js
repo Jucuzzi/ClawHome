@@ -572,7 +572,7 @@ function FileManager() {
                       style={{
                         padding: isMobileDevice ? '12px 4px' : '16px 8px',
                         cursor: isMobileDevice ? 'pointer' : 'context-menu',
-                        background: '#fff',
+                        background: token.colorBgContainer,
                         width: isMobileDevice ? '120px' : '120px',
                         height: isMobileDevice ? 'auto' : '180px',
                         borderRadius: '4px',

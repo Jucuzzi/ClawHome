@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Typography, Card, Collapse, Spin, Alert, theme } from 'antd';
 import { FileTextOutlined } from '@ant-design/icons';
+import { isMobile } from '../utils';
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -55,9 +56,9 @@ function DailyReport() {
   }, []);
 
   return (
-    <Content style={{ margin: '16px', padding: '16px', background: '#fff', borderRadius: '4px', minHeight: 'calc(100vh - 64px - 32px - 32px)' }}>
-      <Title level={3}>每日汇报</Title>
-      <Paragraph type="secondary">
+    <Content style={{ margin: isMobile() ? '8px' : '16px', padding: isMobile() ? '12px' : '16px', background: token.colorBgContainer, borderRadius: '4px', minHeight: 'calc(100vh - 64px - 32px - 32px)' }}>
+      <Title level={isMobile() ? 4 : 3}>每日汇报</Title>
+      <Paragraph type="secondary" style={{ fontSize: isMobile() ? 12 : 14 }}>
         以下是每天往memory中写入的内容，按日期倒序排列：
       </Paragraph>
       

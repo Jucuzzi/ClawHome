@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Layout, Card, List, Typography, Tag, Spin, Empty, Space, Divider, theme } from 'antd';
 import { UserOutlined, RobotOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import { isMobile } from '../utils';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -83,9 +84,9 @@ function ChatHistory() {
   };
 
   return (
-    <Layout style={{ padding: '24px', background: 'transparent' }}>
+    <Layout style={{ padding: isMobile() ? '12px' : '24px', background: 'transparent' }}>
       <Content>
-        <Title level={2} style={{ marginBottom: 24 }}>AI聊天历史</Title>
+        <Title level={isMobile() ? 4 : 2} style={{ marginBottom: isMobile() ? 16 : 24 }}>AI聊天历史</Title>
         
         <Spin spinning={loading}>
           {chatHistory.length === 0 ? (
